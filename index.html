@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CommBridge – Solve Real-Life Communication Problems</title>
+  <meta name="description" content="CommBridge helps you navigate difficult conversations, resolve conflicts, and communicate clearly in any real-life situation." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ──────────────── NAV ──────────────── -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <span class="logo-icon">🌉</span>
+        <span class="logo-text">Comm<span class="accent">Bridge</span></span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#scenarios">Scenarios</a></li>
+        <li><a href="#wizard">Communication Wizard</a></li>
+        <li><a href="#tips">Quick Tips</a></li>
+        <li><a href="#templates">Templates</a></li>
+      </ul>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ──────────────── HERO ──────────────── -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">🔥 Your real-life communication toolkit</div>
+      <h1 class="hero-title">
+        Turn Awkward Moments Into<br />
+        <span class="gradient-text">Powerful Connections</span>
+      </h1>
+      <p class="hero-sub">
+        Whether it's a tough conversation with a boss, a sensitive talk with a partner,<br />
+        or resolving a workplace conflict — CommBridge guides you step by step.
+      </p>
+      <div class="hero-cta">
+        <a href="#wizard" class="btn btn-primary">Start the Wizard ✨</a>
+        <a href="#scenarios" class="btn btn-outline">Browse Scenarios</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">50+</span><span class="stat-label">Scenarios</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">30+</span><span class="stat-label">Templates</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Free</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="chat-mock">
+        <div class="chat-bubble left">I feel overwhelmed by the workload 😔</div>
+        <div class="chat-bubble right">I understand. Let's talk about solutions together.</div>
+        <div class="chat-bubble left">I didn't know how to say that before CommBridge!</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────── SCENARIOS ──────────────── -->
+  <section class="section scenarios-section" id="scenarios">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Scenarios</span>
+        <h2 class="section-title">What's Your Challenge?</h2>
+        <p class="section-sub">Select a situation to get tailored guidance, scripts, and tips.</p>
+      </div>
+
+      <div class="scenario-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="work">Work</button>
+        <button class="filter-btn" data-filter="relationship">Relationships</button>
+        <button class="filter-btn" data-filter="family">Family</button>
+        <button class="filter-btn" data-filter="social">Social</button>
+      </div>
+
+      <div class="scenarios-grid" id="scenariosGrid">
+        <!-- Cards injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────── WIZARD ──────────────── -->
+  <section class="section wizard-section" id="wizard">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Interactive Tool</span>
+        <h2 class="section-title">Communication Wizard 🧙</h2>
+        <p class="section-sub">Answer a few questions — get a personalised script and strategy.</p>
+      </div>
+      <div class="wizard-card">
+        <div class="wizard-progress-bar">
+          <div class="wizard-progress-fill" id="progressFill"></div>
+        </div>
+        <div class="wizard-step-label" id="stepLabel">Step 1 of 4</div>
+        <div class="wizard-body" id="wizardBody">
+          <!-- Steps rendered by JS -->
+        </div>
+        <div class="wizard-nav">
+          <button class="btn btn-outline" id="wizardBack" style="display:none">← Back</button>
+          <button class="btn btn-primary" id="wizardNext">Next →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────── TIPS ──────────────── -->
+  <section class="section tips-section" id="tips">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Quick Wins</span>
+        <h2 class="section-title">Golden Communication Rules</h2>
+        <p class="section-sub">Timeless principles that transform every conversation.</p>
+      </div>
+      <div class="tips-grid" id="tipsGrid">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────── TEMPLATES ──────────────── -->
+  <section class="section templates-section" id="templates">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Ready-to-Use</span>
+        <h2 class="section-title">Message Templates</h2>
+        <p class="section-sub">Copy, customise, and send with confidence.</p>
+      </div>
+      <div class="templates-list" id="templatesList">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────── SCENARIO MODAL ──────────────── -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="scenarioModal" role="dialog" aria-modal="true">
+      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- ──────────────── TOAST ──────────────── -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ──────────────── FOOTER ──────────────── -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="logo" style="margin-bottom:8px">
+        <span class="logo-icon">🌉</span>
+        <span class="logo-text">Comm<span class="accent">Bridge</span></span>
+      </div>
+      <p>Helping humans connect — one conversation at a time.</p>
+      <p class="footer-copy">© 2026 CommBridge. Free forever.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
