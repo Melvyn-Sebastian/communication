@@ -283,6 +283,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTemplates();
   initWizard();
   initModal();
+  initAnalyzer();
+  initParticles();
 });
 
 // ── NAVBAR ───────────────────────────────────────────────────
@@ -525,4 +527,966 @@ function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(function() { toast.classList.remove('show'); }, 3000);
+}
+
+// ── COMMSSCORE ANALYZER ───────────────────────────────────────
+
+// Pattern libraries — each entry has a regex and a human label
+const AGGRESSIVE = [
+  { re: /\byou (always|never|constantly|keep)\b/gi,             label: 'Absolute accusation' },
+  { re: /\byou'?re (so|such|just|completely|totally)\b/gi,      label: 'Character attack' },
+  { re: /\bshut up\b/gi,                                         label: 'Dismissive command' },
+  { re: /\bstop (being|doing|acting)\b/gi,                       label: 'Commanding' },
+  { re: /\byou (should|must|have to|need to)\b/gi,              label: 'Demanding language' },
+  { re: /\bthat'?s (stupid|ridiculous|absurd|dumb|wrong)\b/gi,  label: 'Dismissive framing' },
+  { re: /\byour fault\b/gi,                                      label: 'Blame language' },
+  { re: /\byou (don't|never) (listen|care|understand)\b/gi,     label: 'Blame language' },
+  { re: /\beveryone (knows|agrees|thinks)\b/gi,                  label: 'False generalisation' },
+  { re: /\byou (made|are making) me\b/gi,                        label: 'Externalising blame' },
+  { re: /\bwhy (can'?t|don'?t|won'?t) you\b/gi,                label: 'Rhetorical blame' },
+  { re: /\byou (are|were) (wrong|terrible|awful|bad)\b/gi,      label: 'Character judgment' },
+];
+
+const PASSIVE = [
+  { re: /\bmaybe\b/gi,                                           label: 'Hedging' },
+  { re: /\bi guess\b/gi,                                         label: 'Uncertainty hedge' },
+  { re: /\bkind of\b/gi,                                         label: 'Minimising' },
+  { re: /\bsort of\b/gi,                                         label: 'Minimising' },
+  { re: /\bif that'?s okay\b/gi,                                 label: 'Permission-seeking' },
+  { re: /\bif you don'?t mind\b/gi,                              label: 'Permission-seeking' },
+  { re: /\bi'?m sorry (to bother|for (asking|interrupting))\b/gi, label: 'Excessive apology' },
+  { re: /\bnever mind\b/gi,                                      label: 'Self-dismissal' },
+  { re: /\bdoesn'?t matter\b/gi,                                 label: 'Self-dismissal' },
+  { re: /\bi just wanted\b/gi,                                   label: 'Minimising opener' },
+  { re: /\bi can'?t\b/gi,                                        label: 'Helplessness language' },
+  { re: /\bwhatever\b/gi,                                        label: 'Disengagement' },
+  { re: /\bi suppose\b/gi,                                       label: 'Uncertainty hedge' },
+  { re: /\bno worries\b/gi,                                      label: 'Dismissing own needs' },
+];
+
+const ASSERTIVE = [
+  { re: /\bi feel\b/gi,                                          label: 'Owns emotion ✓' },
+  { re: /\bi need\b/gi,                                          label: 'Clear need ✓' },
+  { re: /\bi'?d like\b/gi,                                       label: 'Assertive request ✓' },
+  { re: /\bi appreciate\b/gi,                                    label: 'Positive framing ✓' },
+  { re: /\bi understand\b/gi,                                    label: 'Empathy signal ✓' },
+  { re: /\bi noticed\b/gi,                                       label: 'Objective observation ✓' },
+  { re: /\bi believe\b/gi,                                       label: 'Confident stance ✓' },
+  { re: /\bi'?m (concerned|worried) (about|that)\b/gi,          label: 'Owns concern ✓' },
+  { re: /\blet'?s\b/gi,                                          label: 'Collaborative language ✓' },
+  { re: /\bwe could\b/gi,                                        label: 'Collaborative language ✓' },
+  { re: /\bi'?d appreciate\b/gi,                                 label: 'Assertive request ✓' },
+  { re: /\bcan we\b/gi,                                          label: 'Inviting dialogue ✓' },
+  { re: /\bwhat i'?m (hoping|looking) for\b/gi,                 label: 'States outcome ✓' },
+];
+
+// Smart rewrite substitution rules (order matters - specific rules first)
+const REWRITE_RULES = [
+  // Specific multi-word patterns first (before general "you never/always")
+  [/\byou (don't|never) listen\b/gi, "I sometimes feel unheard"],
+  [/\byou (don't|never) care\b/gi,  "I need to feel more cared for"],
+  [/\byou (don't|never) understand\b/gi, "I'd love for us to understand each other better"],
+  // General patterns
+  [/\byou always\b/gi,              "I've noticed that you often"],
+  [/\byou never\b/gi,               "I feel like sometimes you don't"],
+  [/\byou constantly\b/gi,          "I've noticed that you frequently"],
+  [/\byou keep\b/gi,                "I've noticed you continue to"],
+  [/\byou should\b/gi,              "I'd really appreciate if you could"],
+  [/\byou must\b/gi,                "I'd love it if you could"],
+  [/\byou have to\b/gi,             "It would help me if you could"],
+  [/\byou need to\b/gi,             "I need you to"],
+  [/\byou made me\b/gi,             "I felt"],
+  [/\byou are making me\b/gi,       "I'm feeling"],
+  [/\byour fault\b/gi,              "something that affected me"],
+  [/\bshut up\b/gi,                 "I need a moment to be heard too"],
+  [/\byou('re| are) so\b/gi,        "I've been feeling"],
+  [/\bmaybe i could\b/gi,           "I'd like to"],
+  [/\bi guess i\b/gi,               "I"],
+  [/\bkind of\b/gi,                 ""],
+  [/\bsort of\b/gi,                 ""],
+  [/\bif that'?s okay\b/gi,         ""],
+  [/\bif you don'?t mind\b/gi,      ""],
+  [/\bi just wanted\b/gi,           "I wanted"],
+  [/\bnever mind\b/gi,              "actually, this matters to me"],
+  [/\bdoesn'?t matter\b/gi,         "it does matter to me"],
+  [/\bwhatever\b/gi,                "I'd like to find a solution"],
+  [/\bi suppose\b/gi,               "I think"],
+  [/\bi can'?t\b/gi,                "I find it difficult to"],
+  [/\bwhy (can'?t|don'?t|won'?t) you\b/gi, "I'd love for you to"],
+  [/\bthat'?s (stupid|ridiculous|absurd|dumb)\b/gi, "I see this differently"],
+  [/\bno worries\b/gi,              "this is something that matters to me"],
+];
+
+// Smart opener suggestions when text is short or lacks assertive framing
+const ASSERTIVE_OPENERS = [
+  "I wanted to share something important with you.",
+  "There's something on my mind I'd like to talk through.",
+  "I value our relationship, and I want to be honest with you.",
+  "I feel it's important to talk about this directly.",
+];
+
+let analyzerDebounce = null;
+let lastRewriteText = '';
+let lastAnalyzedText = '';
+let geminiApiKey = '';
+let isAiAnalyzing = false;
+
+function initAnalyzer() {
+  const textarea = document.getElementById('analyzerInput');
+  const copyBtn = document.getElementById('rewriteCopyBtn');
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  const analyzeHint = document.getElementById('analyzeHint');
+  if (!textarea) return;
+
+  // ── Load saved API key ──
+  initApiKeyUI();
+
+  // ── Input handler: just update word count + enable/disable button ──
+  textarea.addEventListener('input', function() {
+    updateWordCount(textarea.value);
+    var hasText = textarea.value.trim().length >= 2;
+
+    if (analyzeBtn) {
+      analyzeBtn.disabled = !hasText || isAiAnalyzing;
+    }
+
+    if (!hasText) {
+      resetAnalyzerUI();
+      if (analyzeHint) analyzeHint.textContent = 'Type a message, then click to analyze';
+    } else {
+      if (analyzeHint) {
+        if (geminiApiKey) {
+          analyzeHint.textContent = 'Click the button or press Ctrl+Enter';
+        } else {
+          analyzeHint.textContent = 'Add an API key above to enable AI analysis';
+        }
+      }
+    }
+  });
+
+  // ── Analyze button click ──
+  if (analyzeBtn) {
+    analyzeBtn.addEventListener('click', function() {
+      triggerAnalysis(textarea);
+    });
+  }
+
+  // ── Ctrl+Enter keyboard shortcut ──
+  textarea.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      triggerAnalysis(textarea);
+    }
+  });
+
+  // ── Copy button ──
+  copyBtn && copyBtn.addEventListener('click', function() {
+    if (!lastRewriteText) { showToast('Nothing to copy yet — analyze a message first!'); return; }
+    navigator.clipboard.writeText(lastRewriteText)
+      .then(function() {
+        copyBtn.textContent = '\u2705 Copied!';
+        copyBtn.disabled = true;
+        setTimeout(function() { copyBtn.textContent = '\ud83d\udccb Copy Rewrite'; copyBtn.disabled = false; }, 2000);
+        showToast('Smart rewrite copied! \u2728');
+      })
+      .catch(function() { showToast('Copy failed — please select and copy manually.'); });
+  });
+}
+
+function triggerAnalysis(textarea) {
+  var text = textarea.value.trim();
+  if (!text || text.length < 2 || isAiAnalyzing) return;
+
+  var analyzeBtn = document.getElementById('analyzeBtn');
+  var analyzeHint = document.getElementById('analyzeHint');
+
+  if (geminiApiKey) {
+    // AI-powered analysis
+    runAiAnalysis(text);
+  } else {
+    // Regex-only fallback
+    runAnalysis(text);
+    if (analyzeHint) analyzeHint.textContent = 'Using basic mode — add an API key for AI analysis';
+  }
+}
+
+// ── API Key Management ────────────────────────────────────────
+
+function initApiKeyUI() {
+  geminiApiKey = localStorage.getItem('commbridge_gemini_key') || '';
+  updateApiKeyStatus();
+
+  var toggleBtn = document.getElementById('apiKeyToggle');
+  var saveBtn = document.getElementById('apiKeySave');
+  var clearBtn = document.getElementById('apiKeyClear');
+  var panel = document.getElementById('apiKeyPanel');
+  var input = document.getElementById('apiKeyInput');
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function() {
+      panel.classList.toggle('open');
+      toggleBtn.textContent = panel.classList.contains('open') ? 'Close' : 'Configure';
+    });
+  }
+
+  if (saveBtn) {
+    saveBtn.addEventListener('click', function() {
+      var key = input.value.trim();
+      if (!key) { showToast('Please enter an API key'); return; }
+      geminiApiKey = key;
+      localStorage.setItem('commbridge_gemini_key', key);
+      input.value = '';
+      panel.classList.remove('open');
+      if (toggleBtn) toggleBtn.textContent = 'Configure';
+      updateApiKeyStatus();
+      showToast('API key saved! AI analysis is now active \u2728');
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function() {
+      geminiApiKey = '';
+      localStorage.removeItem('commbridge_gemini_key');
+      input.value = '';
+      updateApiKeyStatus();
+      showToast('API key cleared — using basic mode');
+    });
+  }
+}
+
+function updateApiKeyStatus() {
+  var statusEl = document.getElementById('apiKeyStatus');
+  if (!statusEl) return;
+  if (geminiApiKey) {
+    statusEl.textContent = '\u2713 AI mode active';
+    statusEl.classList.add('active');
+  } else {
+    statusEl.textContent = 'No key set — using basic mode';
+    statusEl.classList.remove('active');
+  }
+}
+
+// ── Gemini AI Analysis ────────────────────────────────────────
+
+async function runAiAnalysis(text) {
+  if (!geminiApiKey || !text.trim()) return;
+  if (isAiAnalyzing) return;
+  isAiAnalyzing = true;
+
+  var analyzeBtn = document.getElementById('analyzeBtn');
+  var analyzeHint = document.getElementById('analyzeHint');
+  var statusEl = document.getElementById('analyzerStatus');
+
+  // Set loading state
+  if (analyzeBtn) {
+    analyzeBtn.classList.add('loading');
+    analyzeBtn.disabled = true;
+    var btnText = analyzeBtn.querySelector('.analyze-btn-text');
+    if (btnText) btnText.textContent = 'Analyzing...';
+  }
+  if (analyzeHint) analyzeHint.textContent = '';
+  if (statusEl) {
+    statusEl.innerHTML = '<span class="ai-loading"><span class="ai-spinner"></span>AI is analyzing your message...</span>';
+  }
+
+  try {
+    // Try primary model first, fallback to lite
+    var result = null;
+    try {
+      result = await callGemini(text, 'gemini-2.0-flash');
+    } catch (primaryErr) {
+      console.warn('Primary model failed, trying fallback:', primaryErr.message);
+      result = await callGemini(text, 'gemini-2.0-flash-lite');
+    }
+
+    if (result) {
+      applyAiResults(result, text);
+      lastAnalyzedText = text;
+      if (analyzeHint) analyzeHint.textContent = 'Analysis complete \u2714';
+    }
+  } catch (err) {
+    console.warn('AI analysis failed:', err.message);
+    // Fall back to regex
+    runAnalysis(text);
+    if (statusEl) {
+      var shortErr = err.message.length > 80 ? err.message.substring(0, 80) + '...' : err.message;
+      statusEl.textContent = '\u26a0\ufe0f ' + shortErr;
+    }
+    if (analyzeHint) analyzeHint.textContent = 'AI failed — showing basic analysis. Try again later.';
+  } finally {
+    isAiAnalyzing = false;
+    if (analyzeBtn) {
+      analyzeBtn.classList.remove('loading');
+      analyzeBtn.disabled = false;
+      var btnText2 = analyzeBtn.querySelector('.analyze-btn-text');
+      if (btnText2) btnText2.textContent = 'Analyze with AI';
+    }
+  }
+}
+
+async function callGemini(text, model) {
+  model = model || 'gemini-2.0-flash';
+  var prompt = [
+    "You are CommScore, a communication coach AI. Your job is to analyze ANY text a user types — whether it's a polished message, casual slang, gibberish, profanity, or anything else.",
+    "",
+    "Rules:",
+    "- Always respond, never refuse. This is an educational tool.",
+    "- If the text is gibberish/nonsensical, say so in your explanation and give a low power score.",
+    "- If the text contains profanity or slang, analyze it objectively — note the aggression without being judgmental.",
+    "- If the text is very short (1-3 words), still analyze the tone and intent.",
+    "- The rewrite should always be a constructive, assertive alternative that preserves the user's intent.",
+    "",
+    "MESSAGE TO ANALYZE: \"" + text.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + "\"",
+    "",
+    "Respond with ONLY valid JSON in this exact structure:",
+    "{",
+    '  "toneScore": <number from -100 to 100. -100=very passive, 0=perfectly assertive, 100=very aggressive>,',
+    '  "toneLabel": "<one of: Passive, Slightly Passive, Assertive, Slightly Aggressive, Aggressive>",',
+    '  "powerScore": <number 0-100. Higher = more effective communication. Gibberish/nonsense = 5-15, profanity = 10-25, weak/passive = 25-45, decent = 50-70, strong assertive = 75-100>,',
+    '  "scoreDesc": "<2-3 word descriptor like: Excellent communicator, Strong & clear, Room to improve, Needs reworking, High risk of conflict, Not a real message>",',
+    '  "patterns": [{"type": "<aggressive|passive|assertive>", "label": "<short pattern name like: Profanity, Slang, Blame language, Hedging, Clear need>", "phrase": "<exact words from the message>"}],',
+    '  "rewrite": "<a better, assertive version preserving intent. If gibberish, suggest what they might mean to say>",',
+    '  "explanation": "<1-2 sentences explaining the tone, what works, what could improve>"',
+    "}"
+  ].join("\n");
+
+  var url = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent?key=" + geminiApiKey;
+
+  var response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.3,
+        maxOutputTokens: 1024,
+        responseMimeType: "application/json"
+      },
+      safetySettings: [
+        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+      ]
+    })
+  });
+
+  if (!response.ok) {
+    var errData = await response.json().catch(function() { return {}; });
+    var errMsg = (errData.error && errData.error.message) || 'API returned ' + response.status;
+    console.error('Gemini API error:', errMsg, errData);
+    throw new Error(errMsg);
+  }
+
+  var data = await response.json();
+
+  // Check if response was blocked by safety filters
+  if (data.promptFeedback && data.promptFeedback.blockReason) {
+    console.warn('Gemini blocked response:', data.promptFeedback);
+    throw new Error('Content blocked: ' + data.promptFeedback.blockReason);
+  }
+
+  var rawText = data.candidates && data.candidates[0] && data.candidates[0].content &&
+                data.candidates[0].content.parts && data.candidates[0].content.parts[0] &&
+                data.candidates[0].content.parts[0].text;
+
+  if (!rawText) {
+    // Check if candidate was blocked
+    var finishReason = data.candidates && data.candidates[0] && data.candidates[0].finishReason;
+    if (finishReason === 'SAFETY') {
+      console.warn('Gemini safety block on candidate:', data.candidates[0]);
+      throw new Error('Safety filter triggered — try rephrasing');
+    }
+    console.error('Empty Gemini response:', JSON.stringify(data));
+    throw new Error('Empty response from Gemini');
+  }
+
+  // Strip markdown code fences if present
+  rawText = rawText.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '').trim();
+
+  try {
+    return JSON.parse(rawText);
+  } catch (parseErr) {
+    console.error('Failed to parse Gemini JSON:', rawText);
+    throw new Error('Invalid JSON from AI');
+  }
+}
+
+function applyAiResults(ai, originalText) {
+  // ── Tone gauge ──
+  var toneScore = Math.max(-100, Math.min(100, ai.toneScore || 0));
+  setGaugeNeedle(toneScore);
+  setGaugeToneLabel(ai.toneLabel || 'Analyzing...');
+
+  // ── Power score ring ──
+  var powerScore = Math.max(0, Math.min(100, ai.powerScore || 50));
+  setScoreRing(powerScore, powerScore, ai.scoreDesc || '');
+
+  // ── Patterns ──
+  var patternsEl = document.getElementById('patternsList');
+  if (patternsEl && ai.patterns && ai.patterns.length > 0) {
+    patternsEl.innerHTML = ai.patterns.map(function(p) {
+      return '<span class="pattern-badge badge-' + (p.type || 'assertive') + '">' + escapeHtml(p.label) + '</span>';
+    }).join('');
+  } else if (patternsEl) {
+    patternsEl.innerHTML = '<span class="patterns-empty">No flagged patterns — looking good! \ud83c\udf89</span>';
+  }
+
+  // ── Annotated text (highlight detected phrases in original) ──
+  var annotatedEl = document.getElementById('annotatedText');
+  if (annotatedEl && ai.patterns && ai.patterns.length > 0) {
+    var html = escapeHtml(originalText);
+    // Sort patterns by phrase length descending to avoid partial replacements
+    var sortedPatterns = ai.patterns.slice().sort(function(a, b) {
+      return (b.phrase || '').length - (a.phrase || '').length;
+    });
+    sortedPatterns.forEach(function(p) {
+      if (!p.phrase) return;
+      var escaped = escapeHtml(p.phrase);
+      var re = new RegExp('(' + escaped.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      html = html.replace(re, '<mark class="hl-' + (p.type || 'assertive') + '" title="' + escapeHtml(p.label) + '">$1</mark>');
+    });
+    annotatedEl.innerHTML = html;
+  } else if (annotatedEl) {
+    annotatedEl.innerHTML = escapeHtml(originalText);
+  }
+
+  // ── Rewrite ──
+  var rewriteEl = document.getElementById('rewriteText');
+  if (rewriteEl && ai.rewrite) {
+    lastRewriteText = ai.rewrite;
+    rewriteEl.innerHTML = escapeHtml(ai.rewrite);
+  }
+
+  // ── Status ──
+  var statusEl = document.getElementById('analyzerStatus');
+  if (statusEl) {
+    var issues = (ai.patterns || []).filter(function(p) { return p.type !== 'assertive'; }).length;
+    if (issues === 0) {
+      statusEl.textContent = '\u2728 ' + (ai.toneLabel || 'Assertive') + ' — ' + (ai.explanation || 'strong communication');
+    } else {
+      statusEl.textContent = '\u26a0\ufe0f ' + issues + ' pattern' + (issues > 1 ? 's' : '') + ' flagged \u00b7 ' + (ai.toneLabel || 'Mixed') + ' (AI)';
+    }
+  }
+}
+
+function updateWordCount(text) {
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const el = document.getElementById('analyzerWordCount');
+  if (el) el.textContent = words + (words === 1 ? ' word' : ' words');
+}
+
+function resetAnalyzerUI() {
+  updateWordCount('');
+  const statusEl = document.getElementById('analyzerStatus');
+  if (statusEl) statusEl.textContent = 'Start typing to analyze ✨';
+
+  setGaugeNeedle(0);
+  setScoreRing(0, '—', 'Awaiting input');
+  setGaugeToneLabel('—');
+
+  const patternsList = document.getElementById('patternsList');
+  if (patternsList) patternsList.innerHTML = '<span class="patterns-empty">Patterns appear as you type…</span>';
+
+  const annotated = document.getElementById('annotatedText');
+  if (annotated) annotated.innerHTML = 'Your annotated message will appear here.';
+
+  const rewrite = document.getElementById('rewriteText');
+  if (rewrite) rewrite.innerHTML = 'Your improved version will appear here.';
+
+  lastRewriteText = '';
+}
+
+function runAnalysis(text) {
+  if (!text.trim()) return;
+
+  // ── Find all matches ─────────────────────────────────────────
+  const aggressiveMatches = findMatches(text, AGGRESSIVE, 'aggressive');
+  const passiveMatches    = findMatches(text, PASSIVE,    'passive');
+  const assertiveMatches  = findMatches(text, ASSERTIVE,  'assertive');
+
+  const agCount  = aggressiveMatches.length;
+  const pasCount = passiveMatches.length;
+  const assCount = assertiveMatches.length;
+  const total    = agCount + pasCount + assCount;
+
+  // ── Tone score: -1 (full passive) ↔ 0 (assertive) ↔ +1 (full aggressive)
+  // Range used for gauge needle: -90° (passive) → 0° (assertive) → +90° (aggressive)
+  let toneScore = 0; // −100 … +100
+  if (total > 0) {
+    toneScore = ((agCount - pasCount) / (agCount + pasCount + assCount)) * 100;
+  }
+  // Clamp
+  toneScore = Math.max(-100, Math.min(100, toneScore));
+
+  // Nudge score toward assertive if many assertive phrases
+  if (assCount >= 2 && agCount === 0 && pasCount === 0) toneScore = 0;
+
+  // ── Power Score (0–100, higher = more assertive + effective) ──
+  const baseScore  = 50;
+  const assBonus   = Math.min(assCount * 8, 30);
+  const agPenalty  = Math.min(agCount * 10, 35);
+  const pasPenalty = Math.min(pasCount * 6, 25);
+  const words      = text.trim().split(/\s+/).length;
+  const lengthBonus = words >= 10 && words <= 80 ? 5 : (words < 5 ? -10 : 0);
+
+  let powerScore = baseScore + assBonus - agPenalty - pasPenalty + lengthBonus;
+  powerScore = Math.max(0, Math.min(100, Math.round(powerScore)));
+
+  // ── Descriptors ───────────────────────────────────────────────
+  const { toneLabel, toneDesc, scoreDesc } = getDescriptors(toneScore, powerScore);
+
+  // ── Annotated text ────────────────────────────────────────────
+  const allMatches = [...aggressiveMatches, ...passiveMatches, ...assertiveMatches]
+    .sort((a, b) => a.start - b.start);
+  const annotatedHtml = buildAnnotatedHtml(text, allMatches);
+
+  // ── Smart rewrite ─────────────────────────────────────────────
+  const rewriteResult = buildSmartRewrite(text, agCount, pasCount, assCount);
+  lastRewriteText = rewriteResult.plain;
+
+  // ── Update UI ─────────────────────────────────────────────────
+  updateAnalyzerStatus(agCount, pasCount, assCount, toneLabel);
+  setGaugeNeedle(toneScore);
+  setGaugeToneLabel(toneLabel);
+  setScoreRing(powerScore, powerScore, scoreDesc);
+  updatePatternBadges([...aggressiveMatches, ...passiveMatches, ...assertiveMatches]);
+
+  const annotatedEl = document.getElementById('annotatedText');
+  if (annotatedEl) annotatedEl.innerHTML = annotatedHtml || escapeHtml(text);
+
+  const rewriteEl = document.getElementById('rewriteText');
+  if (rewriteEl) rewriteEl.innerHTML = rewriteResult.html;
+}
+
+// ── Pattern matching ──────────────────────────────────────────
+
+function findMatches(text, patterns, type) {
+  const results = [];
+  patterns.forEach(p => {
+    let m;
+    const re = new RegExp(p.re.source, p.re.flags.replace('g', '') + 'g');
+    while ((m = re.exec(text)) !== null) {
+      results.push({ start: m.index, end: m.index + m[0].length, text: m[0], label: p.label, type });
+    }
+  });
+  return results;
+}
+
+// ── Annotated HTML builder (handles overlapping ranges) ──────
+
+function buildAnnotatedHtml(text, matches) {
+  if (!matches.length) return escapeHtml(text);
+
+  // Merge overlapping intervals, priority: aggressive > passive > assertive
+  const priority = { aggressive: 3, passive: 2, assertive: 1 };
+  const sorted   = [...matches].sort((a, b) => a.start - b.start || priority[b.type] - priority[a.type]);
+
+  const merged = [];
+  sorted.forEach(m => {
+    const last = merged[merged.length - 1];
+    if (last && m.start < last.end) {
+      // Overlap — keep higher-priority type
+      if (priority[m.type] > priority[last.type]) {
+        last.type  = m.type;
+        last.label = m.label;
+        last.end   = Math.max(last.end, m.end);
+      } else {
+        last.end = Math.max(last.end, m.end);
+      }
+    } else {
+      merged.push({ ...m });
+    }
+  });
+
+  let html = '';
+  let cursor = 0;
+  merged.forEach(m => {
+    if (m.start > cursor) html += escapeHtml(text.slice(cursor, m.start));
+    html += `<mark class="hl-${m.type}" title="${escapeHtml(m.label)}">${escapeHtml(text.slice(m.start, m.end))}</mark>`;
+    cursor = m.end;
+  });
+  if (cursor < text.length) html += escapeHtml(text.slice(cursor));
+  return html;
+}
+
+// ── Pattern badge sidebar ─────────────────────────────────────
+
+function updatePatternBadges(matches) {
+  const el = document.getElementById('patternsList');
+  if (!el) return;
+  if (!matches.length) {
+    el.innerHTML = '<span class="patterns-empty">No flagged patterns — looking good! 🎉</span>';
+    return;
+  }
+
+  // Deduplicate by label + type
+  const seen  = new Set();
+  const unique = matches.filter(m => {
+    const key = m.type + '|' + m.label;
+    if (seen.has(key)) return false;
+    seen.add(key); return true;
+  });
+
+  el.innerHTML = unique.map(m =>
+    `<span class="pattern-badge badge-${m.type}">${m.label}</span>`
+  ).join('');
+}
+
+// ── Gauge needle (SVG rotation) ───────────────────────────────
+// toneScore: −100 (passive) → 0 (assertive) → +100 (aggressive)
+// Needle rotation: −90° → 0° → +90°
+
+function setGaugeNeedle(toneScore) {
+  const needle = document.getElementById('gaugeNeedle');
+  if (!needle) return;
+  const deg = (toneScore / 100) * 90;
+  needle.style.transform = `rotate(${deg}deg)`;
+}
+
+function setGaugeToneLabel(label) {
+  const el = document.getElementById('gaugeToneLabel');
+  if (el) el.textContent = label;
+}
+
+// ── Score ring (SVG stroke-dashoffset) ───────────────────────
+
+function setScoreRing(score, display, descriptor) {
+  const circle = document.getElementById('scoreRingCircle');
+  const numEl  = document.getElementById('scoreNumber');
+  const descEl = document.getElementById('scoreDescriptor');
+  const circumference = 251.3;
+
+  if (circle) {
+    const offset = circumference - (score / 100) * circumference;
+    circle.style.strokeDashoffset = offset;
+  }
+  if (numEl)  numEl.textContent  = display === '—' ? '—' : display;
+  if (descEl) descEl.textContent = descriptor;
+}
+
+// ── Status bar ────────────────────────────────────────────────
+
+function updateAnalyzerStatus(agCount, pasCount, assCount, toneLabel) {
+  const el = document.getElementById('analyzerStatus');
+  if (!el) return;
+  const issues = agCount + pasCount;
+  if (issues === 0 && assCount === 0) {
+    el.textContent = 'Analyzing…';
+  } else if (issues === 0) {
+    el.textContent = `✨ ${toneLabel} — strong communication`;
+  } else {
+    el.textContent = `⚠️ ${issues} pattern${issues > 1 ? 's' : ''} flagged · ${toneLabel}`;
+  }
+}
+
+// ── Descriptors ───────────────────────────────────────────────
+
+function getDescriptors(toneScore, powerScore) {
+  let toneLabel, toneDesc;
+  if (toneScore < -40)      { toneLabel = 'Passive';            toneDesc = "Your message plays it very safe -- consider being clearer about what you need."; }
+  else if (toneScore < -15) { toneLabel = 'Slightly Passive';   toneDesc = "You're hedging a bit. Adding clear 'I' statements will strengthen your message."; }
+  else if (toneScore <= 15) { toneLabel = 'Assertive \u2713';   toneDesc = "You're communicating clearly and respectfully -- well balanced."; }
+  else if (toneScore <= 45) { toneLabel = 'Slightly Aggressive'; toneDesc = "Watch the intensity -- a few phrases may put the other person on the defensive."; }
+  else                       { toneLabel = 'Aggressive';         toneDesc = "Several phrases here are likely to cause defensiveness or escalation."; }
+
+  let scoreDesc;
+  if (powerScore >= 80)      scoreDesc = 'Excellent communicator';
+  else if (powerScore >= 65) scoreDesc = 'Strong & clear';
+  else if (powerScore >= 50) scoreDesc = 'Room to strengthen';
+  else if (powerScore >= 35) scoreDesc = 'Needs reworking';
+  else                        scoreDesc = 'High risk of conflict';
+
+  return { toneLabel, toneDesc, scoreDesc };
+}
+
+// ── Smart rewrite engine ──────────────────────────────────────
+
+function buildSmartRewrite(originalText, agCount, pasCount, assCount) {
+  if (!originalText.trim()) return { html: 'Your improved version will appear here.', plain: '' };
+
+  let text = originalText;
+
+  // Apply substitution rules
+  REWRITE_RULES.forEach(([re, replacement]) => {
+    text = text.replace(re, replacement);
+  });
+
+  // Collapse extra spaces introduced by empty replacements
+  text = text.replace(/\s{2,}/g, ' ').trim();
+
+  // Capitalise first character
+  text = text.charAt(0).toUpperCase() + text.slice(1);
+
+  // If there were aggressive patterns and text doesn't already start with an assertive opener
+  const hasAssertiveOpener = /^i (feel|need|noticed|believe|think|want|appreciate|understand)/i.test(text);
+  if (agCount > 0 && !hasAssertiveOpener) {
+    const opener = ASSERTIVE_OPENERS[Math.floor(Math.random() * ASSERTIVE_OPENERS.length)];
+    text = opener + ' ' + text.charAt(0).toLowerCase() + text.slice(1);
+  }
+
+  // Ensure sentence ends with punctuation
+  if (text && !/[.!?]$/.test(text.trim())) text = text.trim() + '.';
+
+  const plain = text;
+  const html  = escapeHtml(text).replace(/\n/g, '<br>');
+
+  return { html, plain };
+}
+
+// ── HTML escape ───────────────────────────────────────────────
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// ── INTERACTIVE 3D PARTICLE BACKGROUND ────────────────────────
+
+function initParticles() {
+  const canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  // ── Config ──
+  const PARTICLE_COUNT = 85;
+  const CONNECT_DIST = 160;
+  const MOUSE_RADIUS = 200;
+  const MOUSE_FORCE = 0.06;
+  const BASE_SPEED = 0.35;
+  const DEPTH_LAYERS = 3;
+
+  // ── State ──
+  let W, H;
+  let mouseX = -9999, mouseY = -9999;
+  let scrollY = 0;
+  let particles = [];
+  let animId;
+
+  // ── Colors matching the design system ──
+  const COLORS = [
+    { r: 108, g: 99,  b: 255 },  // accent purple
+    { r: 167, g: 139, b: 250 },  // accent2 lavender
+    { r: 56,  g: 189, b: 248 },  // accent3 sky
+    { r: 52,  g: 211, b: 153 },  // success green
+  ];
+
+  // ── Particle class ──
+  function Particle() {
+    this.reset();
+  }
+
+  Particle.prototype.reset = function() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.z = Math.random();  // 0 (far) → 1 (close)
+    this.layer = Math.floor(this.z * DEPTH_LAYERS);
+    var sizeRange = 1 + this.z * 2.5;  // far particles smaller
+    this.radius = sizeRange + Math.random() * 1.5;
+    this.baseRadius = this.radius;
+    // Velocity — deeper particles move slower (parallax feel)
+    var speed = BASE_SPEED * (0.3 + this.z * 0.7);
+    var angle = Math.random() * Math.PI * 2;
+    this.vx = Math.cos(angle) * speed;
+    this.vy = Math.sin(angle) * speed;
+    // Pick a color
+    var c = COLORS[Math.floor(Math.random() * COLORS.length)];
+    this.r = c.r; this.g = c.g; this.b = c.b;
+    // Opacity — deeper particles are dimmer
+    this.baseAlpha = 0.15 + this.z * 0.45;
+    this.alpha = this.baseAlpha;
+    // Pulse phase
+    this.pulse = Math.random() * Math.PI * 2;
+    this.pulseSpeed = 0.01 + Math.random() * 0.02;
+  };
+
+  Particle.prototype.update = function(dt) {
+    // Pulse glow
+    this.pulse += this.pulseSpeed;
+    var pulseFactor = 1 + Math.sin(this.pulse) * 0.25;
+    this.radius = this.baseRadius * pulseFactor;
+    this.alpha = this.baseAlpha * (0.7 + Math.sin(this.pulse) * 0.3);
+
+    // Scroll parallax — deeper particles shift less
+    var parallaxY = scrollY * (0.02 + this.z * 0.06);
+
+    // Mouse repulsion
+    var dx = this.x - mouseX;
+    var dy = (this.y + parallaxY) - mouseY;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < MOUSE_RADIUS && dist > 0) {
+      var force = (1 - dist / MOUSE_RADIUS) * MOUSE_FORCE * (1 + this.z);
+      this.vx += (dx / dist) * force;
+      this.vy += (dy / dist) * force;
+      // Brighten near cursor
+      this.alpha = Math.min(1, this.alpha + 0.2 * (1 - dist / MOUSE_RADIUS));
+      this.radius = this.baseRadius * pulseFactor * (1 + 0.5 * (1 - dist / MOUSE_RADIUS));
+    }
+
+    // Damping
+    this.vx *= 0.995;
+    this.vy *= 0.995;
+
+    // Clamp velocity
+    var maxV = BASE_SPEED * 2;
+    var v = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+    if (v > maxV) { this.vx = (this.vx / v) * maxV; this.vy = (this.vy / v) * maxV; }
+
+    // Move
+    this.x += this.vx;
+    this.y += this.vy;
+
+    // Wrap edges
+    if (this.x < -20) this.x = W + 20;
+    if (this.x > W + 20) this.x = -20;
+    if (this.y < -20) this.y = H + 20;
+    if (this.y > H + 20) this.y = -20;
+
+    // Store rendered y (with parallax)
+    this.renderY = this.y - parallaxY;
+  };
+
+  Particle.prototype.draw = function() {
+    // Outer glow
+    ctx.beginPath();
+    ctx.arc(this.x, this.renderY, this.radius * 3, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + (this.alpha * 0.08) + ')';
+    ctx.fill();
+
+    // Core dot
+    ctx.beginPath();
+    ctx.arc(this.x, this.renderY, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + this.alpha + ')';
+    ctx.fill();
+  };
+
+  // ── Connection lines ──
+  function drawConnections() {
+    for (var i = 0; i < particles.length; i++) {
+      for (var j = i + 1; j < particles.length; j++) {
+        var a = particles[i], b = particles[j];
+        // Only connect same or adjacent depth layers
+        if (Math.abs(a.layer - b.layer) > 1) continue;
+        var dx = a.x - b.x;
+        var dy = a.renderY - b.renderY;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECT_DIST) {
+          var opacity = (1 - dist / CONNECT_DIST) * 0.15 * Math.min(a.alpha, b.alpha) / 0.6;
+          // Blend colors
+          var cr = Math.round((a.r + b.r) / 2);
+          var cg = Math.round((a.g + b.g) / 2);
+          var cb = Math.round((a.b + b.b) / 2);
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.renderY);
+          ctx.lineTo(b.x, b.renderY);
+          ctx.strokeStyle = 'rgba(' + cr + ',' + cg + ',' + cb + ',' + opacity + ')';
+          ctx.lineWidth = 0.6 + Math.min(a.z, b.z) * 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  // ── Mouse glow halo ──
+  function drawMouseGlow() {
+    if (mouseX < -1000) return;
+    var grad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, MOUSE_RADIUS * 1.2);
+    grad.addColorStop(0,   'rgba(108, 99, 255, 0.06)');
+    grad.addColorStop(0.5, 'rgba(56, 189, 248, 0.02)');
+    grad.addColorStop(1,   'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(mouseX - MOUSE_RADIUS * 1.5, mouseY - MOUSE_RADIUS * 1.5,
+                 MOUSE_RADIUS * 3, MOUSE_RADIUS * 3);
+  }
+
+  // ── Resize ──
+  function resize() {
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = W * devicePixelRatio;
+    canvas.height = H * devicePixelRatio;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  }
+
+  // ── Create particles ──
+  function createParticles() {
+    particles = [];
+    for (var i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(new Particle());
+    }
+  }
+
+  // ── Animation loop ──
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Update + draw particles (sorted by depth — far ones first)
+    particles.sort(function(a, b) { return a.z - b.z; });
+    for (var i = 0; i < particles.length; i++) {
+      particles[i].update();
+    }
+
+    drawConnections();
+    drawMouseGlow();
+
+    for (var i = 0; i < particles.length; i++) {
+      particles[i].draw();
+    }
+
+    animId = requestAnimationFrame(animate);
+  }
+
+  // ── Event listeners ──
+  window.addEventListener('resize', function() {
+    resize();
+  });
+
+  // Track mouse (use document, not canvas, since canvas has pointer-events:none)
+  document.addEventListener('mousemove', function(e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  document.addEventListener('mouseleave', function() {
+    mouseX = -9999;
+    mouseY = -9999;
+  });
+
+  // Track scroll for parallax
+  window.addEventListener('scroll', function() {
+    scrollY = window.pageYOffset || document.documentElement.scrollTop;
+  }, { passive: true });
+
+  // Touch support
+  document.addEventListener('touchmove', function(e) {
+    if (e.touches.length > 0) {
+      mouseX = e.touches[0].clientX;
+      mouseY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', function() {
+    mouseX = -9999;
+    mouseY = -9999;
+  });
+
+  // ── Start ──
+  resize();
+  createParticles();
+  animate();
+
+  // ── Performance: pause when tab hidden ──
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      cancelAnimationFrame(animId);
+    } else {
+      animate();
+    }
+  });
 }
