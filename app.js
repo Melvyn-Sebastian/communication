@@ -836,7 +836,7 @@ async function _callGeminiWizard(key, prompt) {
 async function _callGroqWizard(key, prompt) {
   var res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST', headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: 'llama3-8b-8192', messages: [{ role: 'system', content: 'You always return valid JSON.'}, { role: 'user', content: prompt }] })
+    body: JSON.stringify({ model: 'llama-3.3-70b-versatile', messages: [{ role: 'system', content: 'You always return valid JSON.'}, { role: 'user', content: prompt }] })
   });
   if (!res.ok) throw new Error('Groq error');
   var data = await res.json();
@@ -1358,7 +1358,7 @@ async function callGroq(text) {
       'Authorization': 'Bearer ' + apiKeys.groq
     },
     body: JSON.stringify({
-      model: 'llama3-8b-8192',
+      model: 'llama-3.3-70b-versatile',
       messages: [
         { role: 'system', content: buildSystemPrompt() },
         { role: 'user', content: 'MESSAGE TO ANALYZE: "' + text + '"' }
