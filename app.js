@@ -374,18 +374,68 @@ const WIZARD_STEPS = [
         { emoji: '🆘', label: 'I\'m overwhelmed and need to ask for help' },
         { emoji: '🙅', label: 'I need to say no to a new project/request' },
         { emoji: '🤝', label: 'I need to negotiate my responsibilities' },
-        { emoji: '🙇', label: 'I need to apologize for a mistake' },
-        { emoji: '🚪', label: 'I\'m planning to resign/quit' }
+        { emoji: '🙇', label: 'I need to apologize for a work mistake' },
+        { emoji: '🚪', label: 'I\'m planning to resign or quit' }
       ],
       'Romantic Relationship': [
-        { emoji: '💔', label: 'I feel hurt or let down by my partner' },
+        { emoji: '❤️', label: 'I feel neglected or taken for granted' },
         { emoji: '⚡', label: 'We keep having the same argument' },
-        { emoji: '😶', label: 'Something important went unsaid for too long' },
-        { emoji: '🔒', label: 'I need to set a boundary regarding space/time' },
-        { emoji: '🤝', label: 'We need to discuss our future/commitment' },
+        { emoji: '🔒', label: 'I need more personal space/boundaries' },
+        { emoji: '🤝', label: 'We need to discuss our future commitment' },
         { emoji: '🏠', label: 'I want to discuss living arrangements or chores' },
-        { emoji: '💰', label: 'We need to talk about money or finances' },
+        { emoji: '💰', label: 'We need to talk about money or joint finances' },
+        { emoji: '🤫', label: 'I need to bring up a sensitive or "taboo" topic' },
         { emoji: '🚶', label: 'I want to end the relationship' }
+      ],
+      'Family': [
+        { emoji: '👨‍👩‍👧', label: 'I feel pressured by family expectations' },
+        { emoji: '🏚️', label: 'There\'s tension regarding an inheritance or property' },
+        { emoji: '🎈', label: 'I disagree with how a relative treats my children' },
+        { emoji: '📞', label: 'I need to set boundaries regarding contact/calling' },
+        { emoji: '👵', label: 'We need to discuss care for an elderly relative' },
+        { emoji: '⚡', label: 'A sibling or relative is being toxic/difficult' },
+        { emoji: '🎄', label: 'I want to decline a family event or holiday invite' },
+        { emoji: '😶', label: 'I\'m tired of keeping a specific family secret' }
+      ],
+      'Friendship / Social': [
+        { emoji: '🤝', label: 'A friend owes me money and hasn\'t paid' },
+        { emoji: '👻', label: 'I feel like a friend is ghosting/distancing me' },
+        { emoji: '🗣️', label: 'I need to address a hurtful comment a friend made' },
+        { emoji: '🥳', label: 'I want to decline a social invite without guilt' },
+        { emoji: '💔', label: 'I\'m developing feelings for a platonic friend' },
+        { emoji: '🫂', label: 'I need to confront a friend about their behavior' },
+        { emoji: '👯', label: 'We are growing apart and I want to fix it' },
+        { emoji: '🙅', label: 'I need to end a toxic friendship' }
+      ],
+      'Neighbors / Community': [
+        { emoji: '🏘️', label: 'The neighbors are being too loud or disruptive' },
+        { emoji: '🚧', label: 'There\'s a dispute about property lines or fences' },
+        { emoji: '🐶', label: 'Their pet is causing issues (noise, mess)' },
+        { emoji: '🗑️', label: 'There\'s a problem with shared space or trash' },
+        { emoji: '🚗', label: 'There\'s a parking dispute in our street' },
+        { emoji: '💬', label: 'I want to bring up a community safety concern' },
+        { emoji: '🤝', label: 'I want to ask a neighbor for a favor' },
+        { emoji: '⚡', label: 'I need to address a passive-aggressive neighbor' }
+      ],
+      'Customer Service / Retail': [
+        { emoji: '🛒', label: 'I want to return a faulty or broken item' },
+        { emoji: '⏳', label: 'My service/delivery is taking way too long' },
+        { emoji: '🧾', label: 'I\'ve been overcharged or seen a billing error' },
+        { emoji: '😤', label: 'A staff member was rude or unprofessional' },
+        { emoji: '📞', label: 'I\'m stuck in a loop with a help desk' },
+        { emoji: '📦', label: 'I want to cancel a subscription or contract' },
+        { emoji: '🎟️', label: 'I want to negotiate a discount or refund' },
+        { emoji: '🌟', label: 'I want to escalate my issue to a manager' }
+      ],
+      'Academic / Educational': [
+        { emoji: '🧑‍🏫', label: 'I disagree with a grade or feedback I received' },
+        { emoji: '📚', label: 'I\'m struggling and need to ask for an extension' },
+        { emoji: '👥', label: 'My group project members aren\'t contributing' },
+        { emoji: '🏫', label: 'I need to discuss my career/academic path' },
+        { emoji: '🤐', label: 'I need to report academic dishonesty or bullying' },
+        { emoji: '✍️', label: 'I need better support for my learning needs' },
+        { emoji: '💸', label: 'I need to discuss tuition, fees, or funding' },
+        { emoji: '🤝', label: 'I want to ask for a recommendation letter' }
       ],
       'default': [
         { emoji: '⚡', label: 'There\'s unresolved conflict or tension' },
@@ -411,6 +461,26 @@ const WIZARD_STEPS = [
         { emoji: '⏱️', label: 'Speed up the process/get results faster' },
         { emoji: '😌', label: 'Feel heard and respected by the staff' },
         { emoji: '🕊️', label: 'Resolve a complaint about my care' }
+      ],
+      'Academic / Educational': [
+        { emoji: '🎓', label: 'Get a fair re-evaluation of my work' },
+        { emoji: '⏳', label: 'Get an extension on my deadline' },
+        { emoji: '🤝', label: 'Resolve a conflict within my group' },
+        { emoji: '📖', label: 'Get more clear academic guidance' },
+        { emoji: '⚖️', label: 'Report a concern safely and fairly' },
+        { emoji: '💡', label: 'Understand the feedback I received' },
+        { emoji: '💸', label: 'Find a solution for my funding/fees' },
+        { emoji: '📝', label: 'Secure a strong recommendation' }
+      ],
+      'Customer Service / Retail': [
+        { emoji: '💸', label: 'Get a full or partial refund' },
+        { emoji: '📦', label: 'Get a replacement or correct item' },
+        { emoji: '🛑', label: 'Successfully cancel my service' },
+        { emoji: '🙇', label: 'Receive a sincere apology from the brand' },
+        { emoji: '🌟', label: 'Have my issue addressed by a manager' },
+        { emoji: '⏱️', label: 'Speed up a delayed delivery or service' },
+        { emoji: '🧾', label: 'Correct a billing or pricing error' },
+        { emoji: '💡', label: 'Get a clear answer on why this happened' }
       ],
       'default': [
         { emoji: '🕊️', label: 'Resolve and restore the relationship' },
