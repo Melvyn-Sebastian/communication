@@ -2,6 +2,16 @@
    CommBridge – app.js
    ============================================================ */
 
+// ── DEPLOYMENT CONFIG (Option A) ──────────────────────────────
+// Hardcode your API keys here before deploying to Vercel.
+// The app will prioritize these keys if no other keys are set.
+const DEFAULT_KEYS = {
+  gemini: '',
+  groq: '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',
+  openrouter: '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'
+};
+
+
 // Global copy text store (fixes backtick-in-template-literal bug)
 window._cb_texts = [];
 function _cbCopy(btn, idx) {
@@ -845,14 +855,6 @@ async function _callOpenRouterWizard(key, prompt) {
   return JSON.parse(resultText);
 }
 
-// ── CONFIG ───────────────────────────────────────────────────
-// Deployment Config: Hardcode keys here for Vercel/Netlify builds 
-// or use environment variables to replace these strings during build.
-const DEFAULT_KEYS = {
-  gemini: '',
-  groq: '',
-  openrouter: ''
-};
 
 // ── UTILS ────────────────────────────────────────────────────
 
@@ -1055,7 +1057,7 @@ function initApiKeyUI() {
   apiKeys.gemini = urlParams.get('gemini') || localStorage.getItem('commbridge_gemini_key') || DEFAULT_KEYS.gemini || '';
   apiKeys.groq = urlParams.get('groq') || localStorage.getItem('commbridge_groq_key') || DEFAULT_KEYS.groq || '';
   apiKeys.openrouter = urlParams.get('openrouter') || localStorage.getItem('commbridge_openrouter_key') || DEFAULT_KEYS.openrouter || '';
-  primaryProvider = urlParams.get('provider') || localStorage.getItem('commbridge_primary_provider') || 'gemini';
+  primaryProvider = urlParams.get('provider') || localStorage.getItem('commbridge_primary_provider') || (DEFAULT_KEYS.openrouter ? 'openrouter' : 'gemini');
 
   // Persist URL keys to localStorage if they exist, then clean the URL
   let needsCleaning = false;
