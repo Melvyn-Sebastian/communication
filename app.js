@@ -345,29 +345,74 @@ const WIZARD_STEPS = [
   },
   {
     question: '😟 How would you describe the situation?',
-    options: [
-      { emoji: '⚡', label: 'There\'s unresolved conflict or tension' },
-      { emoji: '😶', label: 'Something important went unsaid for too long' },
-      { emoji: '🙅', label: 'I need to say no or set a boundary' },
-      { emoji: '💔', label: 'Someone hurt me or let me down' },
-      { emoji: '🗣️', label: 'I need to deliver difficult feedback' },
-      { emoji: '🆘', label: 'I need to ask for help or support' },
-      { emoji: '🤝', label: 'I need to negotiate or compromise' },
-      { emoji: '🙇', label: 'I need to sincerely apologize' }
-    ]
+    // contextOptions will be picked based on the first answer's label
+    contextOptions: {
+      'Medical / Healthcare': [
+        { emoji: '🏥', label: 'I disagree with a doctor\'s recommendation' },
+        { emoji: '💊', label: 'I need to ask for a second opinion' },
+        { emoji: '👩‍⚕️', label: 'I don\'t understand the diagnosis/treatment' },
+        { emoji: '🚑', label: 'I feel my symptoms aren\'t being taken seriously' },
+        { emoji: '💰', label: 'I need to discuss medical costs or insurance' },
+        { emoji: '🙅', label: 'I want to refuse a specific test or medication' },
+        { emoji: '👨‍👩‍👧', label: 'I\'m advocating for a family member\'s care' },
+        { emoji: '⏳', label: 'I\'ve been waiting too long for results/appointment' }
+      ],
+      'Work / Professional': [
+        { emoji: '💼', label: 'I need to ask for a raise or promotion' },
+        { emoji: '⚡', label: 'There\'s conflict with a coworker or boss' },
+        { emoji: '🗣️', label: 'I need to deliver difficult feedback' },
+        { emoji: '🆘', label: 'I\'m overwhelmed and need to ask for help' },
+        { emoji: '🙅', label: 'I need to say no to a new project/request' },
+        { emoji: '🤝', label: 'I need to negotiate my responsibilities' },
+        { emoji: '🙇', label: 'I need to apologize for a mistake' },
+        { emoji: '🚪', label: 'I\'m planning to resign/quit' }
+      ],
+      'Romantic Relationship': [
+        { emoji: '💔', label: 'I feel hurt or let down by my partner' },
+        { emoji: '⚡', label: 'We keep having the same argument' },
+        { emoji: '😶', label: 'Something important went unsaid for too long' },
+        { emoji: '🔒', label: 'I need to set a boundary regarding space/time' },
+        { emoji: '🤝', label: 'We need to discuss our future/commitment' },
+        { emoji: '🏠', label: 'I want to discuss living arrangements or chores' },
+        { emoji: '💰', label: 'We need to talk about money or finances' },
+        { emoji: '🚶', label: 'I want to end the relationship' }
+      ],
+      'default': [
+        { emoji: '⚡', label: 'There\'s unresolved conflict or tension' },
+        { emoji: '😶', label: 'Something important went unsaid for too long' },
+        { emoji: '🙅', label: 'I need to say no or set a boundary' },
+        { emoji: '💔', label: 'Someone hurt me or let me down' },
+        { emoji: '🗣️', label: 'I need to deliver difficult feedback' },
+        { emoji: '🆘', label: 'I need to ask for help or support' },
+        { emoji: '🤝', label: 'I need to negotiate or compromise' },
+        { emoji: '🙇', label: 'I need to sincerely apologize' }
+      ]
+    }
   },
   {
     question: '🎯 What outcome are you hoping for?',
-    options: [
-      { emoji: '🕊️', label: 'Resolve and restore the relationship' },
-      { emoji: '🧹', label: 'Clear the air and move forward' },
-      { emoji: '🔒', label: 'Set a firm boundary going forward' },
-      { emoji: '💬', label: 'Simply be heard and understood' },
-      { emoji: '⚖️', label: 'Reach a fair agreement or compromise' },
-      { emoji: '🛑', label: 'De-escalate an angry or volatile situation' },
-      { emoji: '💡', label: 'Gain clarity on where we both stand' },
-      { emoji: '👋', label: 'End the relationship/engagement respectfully' }
-    ]
+    contextOptions: {
+      'Medical / Healthcare': [
+        { emoji: '💡', label: 'Get a clear explanation I actually understand' },
+        { emoji: '🩺', label: 'Secure a referral or a second opinion' },
+        { emoji: '📋', label: 'Change my current treatment plan' },
+        { emoji: '🤝', label: 'Feel like a partner in my own care' },
+        { emoji: '💰', label: 'Reduce the cost or find financial aid' },
+        { emoji: '⏱️', label: 'Speed up the process/get results faster' },
+        { emoji: '😌', label: 'Feel heard and respected by the staff' },
+        { emoji: '🕊️', label: 'Resolve a complaint about my care' }
+      ],
+      'default': [
+        { emoji: '🕊️', label: 'Resolve and restore the relationship' },
+        { emoji: '🧹', label: 'Clear the air and move forward' },
+        { emoji: '🔒', label: 'Set a firm boundary going forward' },
+        { emoji: '💬', label: 'Simply be heard and understood' },
+        { emoji: '⚖️', label: 'Reach a fair agreement or compromise' },
+        { emoji: '🛑', label: 'De-escalate an angry or volatile situation' },
+        { emoji: '💡', label: 'Gain clarity on where we both stand' },
+        { emoji: '👋', label: 'End the relationship/engagement respectfully' }
+      ]
+    }
   },
   {
     question: '🙋 How comfortable are you with direct conversation?',
@@ -603,12 +648,21 @@ function renderWizardStep() {
   }
 
   var step = WIZARD_STEPS[wizardStep];
+  var options = step.options;
+
+  // Context-aware options logic
+  if (step.contextOptions) {
+    var areaIdx = wizardAnswers[0];
+    var areaLabel = WIZARD_STEPS[0].options[areaIdx].label;
+    options = step.contextOptions[areaLabel] || step.contextOptions['default'];
+  }
+
   progressFill.style.width = (((wizardStep) / totalSteps) * 100) + '%';
   stepLabel.textContent = 'Step ' + (wizardStep + 1) + ' of ' + totalSteps;
   backBtn.style.display = wizardStep > 0 ? 'inline-flex' : 'none';
   nextBtn.textContent = wizardStep === totalSteps - 1 ? 'See My Results ✨' : 'Next →';
 
-  var optionsHtml = step.options.map(function(o, i) {
+  var optionsHtml = options.map(function(o, i) {
     var sel = wizardAnswers[wizardStep] === i ? ' selected' : '';
     return '<button class="wizard-option' + sel + '" data-idx="' + i + '">' +
       '<span>' + o.emoji + '</span><span>' + o.label + '</span></button>';
@@ -713,9 +767,17 @@ function generateFallbackWizard(answers) {
 }
 
 async function runWizardAi(answers) {
-  var area = WIZARD_STEPS[0].options[answers[0] || 0].label;
-  var sit = WIZARD_STEPS[1].options[answers[1] || 0].label;
-  var goal = WIZARD_STEPS[2].options[answers[2] || 0].label;
+  var areaObj = WIZARD_STEPS[0].options[answers[0] || 0];
+  var area = areaObj.label;
+  
+  var sitStep = WIZARD_STEPS[1];
+  var sitOptions = sitStep.contextOptions ? (sitStep.contextOptions[area] || sitStep.contextOptions['default']) : sitStep.options;
+  var sit = sitOptions[answers[1] || 0].label;
+
+  var goalStep = WIZARD_STEPS[2];
+  var goalOptions = goalStep.contextOptions ? (goalStep.contextOptions[area] || goalStep.contextOptions['default']) : goalStep.options;
+  var goal = goalOptions[answers[2] || 0].label;
+
   var comf = WIZARD_STEPS[3].options[answers[3] || 0].label;
 
   var prompt = "You are an expert communication coach.\n" +
@@ -782,6 +844,15 @@ async function _callOpenRouterWizard(key, prompt) {
   var resultText = data.choices[0].message.content.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
   return JSON.parse(resultText);
 }
+
+// ── CONFIG ───────────────────────────────────────────────────
+// Deployment Config: Hardcode keys here for Vercel/Netlify builds 
+// or use environment variables to replace these strings during build.
+const DEFAULT_KEYS = {
+  gemini: '',
+  groq: '',
+  openrouter: ''
+};
 
 // ── UTILS ────────────────────────────────────────────────────
 
@@ -978,22 +1049,32 @@ function triggerAnalysis(textarea) {
 // ── API Key Management ────────────────────────────────────────
 
 function initApiKeyUI() {
-  // Load from URL first (to support sharing), then fallback to localStorage
+  // Load order: URL > LocalStorage > Default Hardcoded Config
   var urlParams = new URLSearchParams(window.location.search);
   
-  apiKeys.gemini = urlParams.get('gemini') || localStorage.getItem('commbridge_gemini_key') || '';
-  apiKeys.groq = urlParams.get('groq') || localStorage.getItem('commbridge_groq_key') || '';
-  apiKeys.openrouter = urlParams.get('openrouter') || localStorage.getItem('commbridge_openrouter_key') || '';
+  apiKeys.gemini = urlParams.get('gemini') || localStorage.getItem('commbridge_gemini_key') || DEFAULT_KEYS.gemini || '';
+  apiKeys.groq = urlParams.get('groq') || localStorage.getItem('commbridge_groq_key') || DEFAULT_KEYS.groq || '';
+  apiKeys.openrouter = urlParams.get('openrouter') || localStorage.getItem('commbridge_openrouter_key') || DEFAULT_KEYS.openrouter || '';
   primaryProvider = urlParams.get('provider') || localStorage.getItem('commbridge_primary_provider') || 'gemini';
 
-  // If keys were in URL, automatically save them to local storage so they persist
-  if (urlParams.get('gemini')) localStorage.setItem('commbridge_gemini_key', apiKeys.gemini);
-  if (urlParams.get('groq')) localStorage.setItem('commbridge_groq_key', apiKeys.groq);
-  if (urlParams.get('openrouter')) localStorage.setItem('commbridge_openrouter_key', apiKeys.openrouter);
-  if (urlParams.get('provider')) localStorage.setItem('commbridge_primary_provider', primaryProvider);
+  // Persist URL keys to localStorage if they exist, then clean the URL
+  let needsCleaning = false;
+  if (urlParams.get('gemini')) { localStorage.setItem('commbridge_gemini_key', apiKeys.gemini); needsCleaning = true; }
+  if (urlParams.get('groq')) { localStorage.setItem('commbridge_groq_key', apiKeys.groq); needsCleaning = true; }
+  if (urlParams.get('openrouter')) { localStorage.setItem('commbridge_openrouter_key', apiKeys.openrouter); needsCleaning = true; }
+  if (urlParams.get('provider')) { localStorage.setItem('commbridge_primary_provider', primaryProvider); needsCleaning = true; }
+
+  // Clean URL: Strip keys from address bar after storing them locally
+  if (needsCleaning) {
+    var cleanUrl = new URL(window.location.href);
+    cleanUrl.searchParams.delete('gemini');
+    cleanUrl.searchParams.delete('groq');
+    cleanUrl.searchParams.delete('openrouter');
+    cleanUrl.searchParams.delete('provider');
+    window.history.replaceState({}, '', cleanUrl);
+  }
 
   updateApiKeyStatus();
-  updateShareableUrl();
 
   var toggleBtn = document.getElementById('apiKeyToggle');
   var saveBtn = document.getElementById('apiKeySave');
@@ -1046,12 +1127,8 @@ function initApiKeyUI() {
 }
 
 function updateShareableUrl() {
-  var url = new URL(window.location.href);
-  if (apiKeys.gemini) url.searchParams.set('gemini', apiKeys.gemini); else url.searchParams.delete('gemini');
-  if (apiKeys.groq) url.searchParams.set('groq', apiKeys.groq); else url.searchParams.delete('groq');
-  if (apiKeys.openrouter) url.searchParams.set('openrouter', apiKeys.openrouter); else url.searchParams.delete('openrouter');
-  if (primaryProvider) url.searchParams.set('provider', primaryProvider); else url.searchParams.delete('provider');
-  window.history.replaceState({}, '', url);
+  // We no longer automatically put keys in the URL for security/cleanliness.
+  // This function is kept for backwards compatibility but performs no URL modification.
 }
 
 function updateApiInputForProvider() {
