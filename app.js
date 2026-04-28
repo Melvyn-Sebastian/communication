@@ -177,6 +177,110 @@ const SCENARIOS = [
       'Don\'t wait for their approval — say it and let it land.'
     ],
     script: "\"I want to name something — when [specific thing happened], it felt dismissive.\nI'm not sure if that was the intention, but it's not something I'm willing to overlook.\nI'd appreciate [specific change] going forward.\""
+  },
+  {
+    id: 13, category: 'work', icon: '🆘',
+    title: 'Asking for Help Without Feeling Weak',
+    desc: 'Request assistance while demonstrating leadership and self-awareness.',
+    what: 'Many professionals struggle to ask for help, fearing it looks like incompetence. In reality, asking for targeted help shows strong self-awareness and prioritizes the project over ego.',
+    steps: [
+      'Be specific about what you\'ve already tried to solve the issue.',
+      'Clearly define what exactly you need help with (time, expertise, resources).',
+      'Frame it as a collaboration to achieve the best result for the team.',
+      'Thank them and offer to return the favor in the future.'
+    ],
+    script: "\"Hi [Name], I'm currently working on [Project] and I've hit a roadblock with [specific issue].\nI've already tried [A and B], but I know you have strong expertise in this area.\nCould I get 15 minutes of your time to get your perspective on [specific question]?\nI want to make sure we get this right.\""
+  },
+  {
+    id: 14, category: 'relationship', icon: '💸',
+    title: 'Discussing Finances with a Partner',
+    desc: 'Talk about money without triggering anxiety or arguments.',
+    what: 'Money is the number one source of relationship conflict. Approaching the topic neutrally, rather than as an audit, prevents defensiveness and fosters teamwork.',
+    steps: [
+      'Schedule a "money date" so neither person feels ambushed.',
+      'Start with shared goals before looking at the numbers.',
+      'Avoid placing blame for past spending; focus on future habits.',
+      'Use "we" language instead of "you" language.'
+    ],
+    script: "\"I'd love for us to sit down this weekend and look at our finances together.\nMy goal isn't to scrutinise everything, but just to make sure we're on track for [shared goal, e.g., our holiday / saving].\nI think if we get on the same page, we'll both feel a lot less stressed.\nDoes Saturday morning work for you?\""
+  },
+  {
+    id: 15, category: 'family', icon: '✋',
+    title: 'Refusing Unsolicited Advice',
+    desc: 'Handle well-meaning but overstepping family members gracefully.',
+    what: 'Family members often give advice out of love, but it can feel controlling or dismissive. You can validate their care while firmly rejecting the advice.',
+    steps: [
+      'Acknowledge their good intentions immediately to disarm them.',
+      'State your decision firmly without over-explaining your reasons.',
+      'Pivot the conversation to a new, neutral topic.',
+      'If they push, gently repeat your boundary.'
+    ],
+    script: "\"I know you're suggesting this because you care about me, and I appreciate that.\nHowever, I've already made my decision on how I'm handling [situation].\nIf I need a second opinion later, I'll definitely let you know.\nAnyway, how has [new topic] been going?\""
+  },
+  {
+    id: 16, category: 'social', icon: '✂️',
+    title: 'Ending a Toxic Friendship',
+    desc: 'Step away from a draining relationship clearly and respectfully.',
+    what: 'Ghosting a long-term friend often causes more anxiety and drama than a clean break. A direct, respectful conversation provides closure for both parties.',
+    steps: [
+      'Focus the conversation on your own needs, not their flaws.',
+      'Keep it relatively brief — don\'t get drawn into an argument about the past.',
+      'Be clear that this is a final decision, not a negotiation.',
+      'Wish them well genuinely as you close the door.'
+    ],
+    script: "\"I'm reaching out because I need to be honest with you.\nOver the past few months, I've realised that our friendship is no longer healthy for me, and I need to step back from it.\nThis isn't an easy message to send, but I wanted to be direct rather than just fading out.\nI genuinely wish you all the best going forward.\""
+  },
+  {
+    id: 17, category: 'work', icon: '🤝',
+    title: 'Networking at an Event',
+    desc: 'Introduce yourself without sounding salesy or desperate.',
+    what: 'Networking is often awkward because people try to pitch themselves immediately. The best networking focuses on curiosity and building a genuine human connection first.',
+    steps: [
+      'Start with a contextual observation (the venue, the speaker, the food).',
+      'Ask open-ended questions about what they do or what brought them here.',
+      'Listen actively and find a common point of interest.',
+      'Exit gracefully by exchanging details, rather than overstaying.'
+    ],
+    script: "\"Hi, I don't think we've met. I'm [Name]. What brought you to this event today?\nOh, that's interesting. I actually work in [your field]. How long have you been in [their field]?\nI've really enjoyed our chat. I'm going to grab a coffee, but I'd love to connect on LinkedIn if you're open to it.\""
+  },
+  {
+    id: 18, category: 'work', icon: '🔄',
+    title: 'Delegating a Task',
+    desc: 'Assign work effectively without micromanaging.',
+    what: 'Poor delegation leads to frustration on both sides. A good hand-off provides clear expectations and context while trusting the person to execute.',
+    steps: [
+      'Explain *why* this task is important and why you chose them.',
+      'Clearly define what success looks like (the output, not the exact method).',
+      'Set a specific deadline and check-in points.',
+      'Ask if they have everything they need to start.'
+    ],
+    script: "\"I need your help with [Task]. Because of your experience with [skill], you're the best person for this.\nThe goal is to have [specific outcome] ready by [date].\nI trust your approach on how to get there. How does that timeline look to you?\nLet's check in on [Day] just to see if you need any support.\""
+  },
+  {
+    id: 19, category: 'family', icon: '🧸',
+    title: 'Apologising to a Child',
+    desc: 'Model healthy accountability when you lose your temper.',
+    what: 'Apologising to children teaches them that adults make mistakes too, and that relationships can be repaired. It builds deep emotional security.',
+    steps: [
+      'Get down to their eye level and use a calm voice.',
+      'Name your mistake clearly without blaming their behaviour.',
+      'Reassure them that your feelings are your responsibility.',
+      'Ask for a hug or a reset to repair the connection.'
+    ],
+    script: "\"I need to say sorry to you. Earlier, I yelled because I was feeling stressed, and that wasn't okay.\nIt wasn't your fault that I lost my temper.\nI'm going to try to take deep breaths next time.\nCan we have a hug and start over?\""
+  },
+  {
+    id: 20, category: 'social', icon: '🏡',
+    title: 'Setting a Rule with Neighbors',
+    desc: 'Address a nuisance respectfully to keep the peace.',
+    what: 'Neighborly disputes can easily escalate. Addressing the issue early, politely, and collaboratively prevents long-term hostility and resentment.',
+    steps: [
+      'Assume they don\'t realise they are causing a problem.',
+      'Frame the conversation around a shared goal (a peaceful neighborhood).',
+      'State the issue clearly and propose a reasonable compromise.',
+      'Keep it brief and friendly.'
+    ],
+    script: "\"Hi there! I wanted to chat with you quickly.\nWe've been hearing a lot of noise late at night, and I know these walls are pretty thin.\nWould it be possible to keep the volume down after 10 PM?\nI'd really appreciate it, and if we're ever too loud, please let us know too!\""
   }
 ];
 
@@ -233,6 +337,10 @@ const WIZARD_STEPS = [
       { emoji: '❤️', label: 'Romantic Relationship' },
       { emoji: '👨‍👩‍👧', label: 'Family' },
       { emoji: '🤝', label: 'Friendship / Social' },
+      { emoji: '🏘️', label: 'Neighbors / Community' },
+      { emoji: '🛒', label: 'Customer Service / Retail' },
+      { emoji: '🧑‍🏫', label: 'Academic / Educational' },
+      { emoji: '🏥', label: 'Medical / Healthcare' }
     ]
   },
   {
@@ -242,6 +350,10 @@ const WIZARD_STEPS = [
       { emoji: '😶', label: 'Something important went unsaid for too long' },
       { emoji: '🙅', label: 'I need to say no or set a boundary' },
       { emoji: '💔', label: 'Someone hurt me or let me down' },
+      { emoji: '🗣️', label: 'I need to deliver difficult feedback' },
+      { emoji: '🆘', label: 'I need to ask for help or support' },
+      { emoji: '🤝', label: 'I need to negotiate or compromise' },
+      { emoji: '🙇', label: 'I need to sincerely apologize' }
     ]
   },
   {
@@ -251,6 +363,10 @@ const WIZARD_STEPS = [
       { emoji: '🧹', label: 'Clear the air and move forward' },
       { emoji: '🔒', label: 'Set a firm boundary going forward' },
       { emoji: '💬', label: 'Simply be heard and understood' },
+      { emoji: '⚖️', label: 'Reach a fair agreement or compromise' },
+      { emoji: '🛑', label: 'De-escalate an angry or volatile situation' },
+      { emoji: '💡', label: 'Gain clarity on where we both stand' },
+      { emoji: '👋', label: 'End the relationship/engagement respectfully' }
     ]
   },
   {
@@ -260,18 +376,15 @@ const WIZARD_STEPS = [
       { emoji: '😐', label: 'Somewhat — depends on the situation' },
       { emoji: '😌', label: 'Generally okay — I just need a framework' },
       { emoji: '💪', label: 'Comfortable — I just need the right words' },
+      { emoji: '🔥', label: 'Too comfortable — I can come across aggressive' },
+      { emoji: '🧊', label: 'I tend to shut down and give the silent treatment' },
+      { emoji: '😢', label: 'I cry or get very emotional when confronting' },
+      { emoji: '🌪️', label: 'I over-explain and lose my main point' }
     ]
   }
 ];
 
-const RESULT_SCRIPT = 'Start by choosing the right time and place — somewhere private and calm.\n\nOpen with:\n"I\'ve been wanting to talk about something. I care about [this relationship / situation] and I think it\'s worth addressing."\n\nThen:\n- Share your experience using "I feel / I noticed / I\'ve been affected by..."\n- Avoid accusatory language — describe the behaviour, not the person\n- Name the outcome you want: "What I\'m hoping for is..."\n\nClose with:\n"I\'m not trying to attack you — I just want us to figure this out together. What are your thoughts?"';
-
-const RESULT_TIPS = [
-  'Take 3 deep breaths before you start — it slows your nervous system',
-  'Write down 3 key points in advance so you don\'t lose track mid-conversation',
-  'If emotions run high, suggest a 5-minute pause rather than stopping completely',
-  'End the conversation with a specific agreement or clear next step'
-];
+// Removed static RESULT_SCRIPT and RESULT_TIPS - using dynamic generation instead
 
 // ── INIT ─────────────────────────────────────────────────────
 
@@ -285,7 +398,26 @@ document.addEventListener('DOMContentLoaded', () => {
   initModal();
   initAnalyzer();
   initParticles();
+  initScrollAnimations();
 });
+
+// ── SCROLL ANIMATIONS ───────────────────────────────────────
+window.scrollObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+function initScrollAnimations() {
+  observeElements(document.body);
+}
+
+function observeElements(container) {
+  if (!container) return;
+  container.querySelectorAll('.fade-in').forEach(el => window.scrollObserver.observe(el));
+}
 
 // ── NAVBAR ───────────────────────────────────────────────────
 
@@ -313,13 +445,15 @@ function renderScenarios() {
   const grid = document.getElementById('scenariosGrid');
   if (!grid) return;
   grid.innerHTML = SCENARIOS.map(s => {
-    return '<div class="scenario-card" data-id="' + s.id + '" data-category="' + s.category + '" tabindex="0" role="button">' +
+    const hiddenClass = (s.category !== 'work') ? ' hidden' : '';
+    return '<div class="scenario-card fade-in' + hiddenClass + '" data-id="' + s.id + '" data-category="' + s.category + '" tabindex="0" role="button">' +
       '<div class="sc-icon">' + s.icon + '</div>' +
       '<div class="sc-tag ' + s.category + '">' + s.category + '</div>' +
       '<div class="sc-title">' + s.title + '</div>' +
       '<div class="sc-desc">' + s.desc + '</div>' +
       '</div>';
   }).join('');
+  if (window.scrollObserver) observeElements(grid);
 
   grid.querySelectorAll('.scenario-card').forEach(card => {
     card.addEventListener('click', () => openScenario(Number(card.dataset.id)));
@@ -382,12 +516,13 @@ function renderTips() {
   const grid = document.getElementById('tipsGrid');
   if (!grid) return;
   grid.innerHTML = TIPS.map(function(t) {
-    return '<div class="tip-card">' +
+    return '<div class="tip-card fade-in">' +
       '<div class="tip-num">' + t.num + '</div>' +
       '<div><div class="tip-title">' + t.title + '</div>' +
       '<div class="tip-body">' + t.body + '</div></div>' +
       '</div>';
   }).join('');
+  if (window.scrollObserver) observeElements(grid);
 }
 
 // ── TEMPLATES ────────────────────────────────────────────────
@@ -397,7 +532,7 @@ function renderTemplates() {
   if (!list) return;
   list.innerHTML = TEMPLATES.map(function(t, i) {
     const idx = _store(t.text);
-    return '<div class="template-item" id="tmpl-' + i + '">' +
+    return '<div class="template-item fade-in" id="tmpl-' + i + '">' +
       '<div class="template-header" onclick="toggleTemplate(' + i + ')">' +
       '<div class="tmpl-left">' +
       '<div class="tmpl-icon">' + t.icon + '</div>' +
@@ -409,9 +544,10 @@ function renderTemplates() {
       '<div class="template-body">' +
       '<div class="template-text">' + t.text.replace(/\n/g, '<br>') + '</div>' +
       '<div class="template-actions">' +
-      '<button class="btn btn-sm btn-primary" onclick="_cbCopy(this,' + idx + ')">📋 Copy Template</button>' +
+      '<button class="btn btn-sm btn-outline" style="margin-top:16px" onclick="_cbCopy(this,' + idx + '); event.stopPropagation()">📋 Copy Template</button>' +
       '</div></div></div>';
   }).join('');
+  if (window.scrollObserver) observeElements(list);
 }
 
 function toggleTemplate(i) {
@@ -448,34 +584,21 @@ function renderWizardStep() {
 
   if (wizardStep >= totalSteps) {
     progressFill.style.width = '100%';
-    stepLabel.textContent = 'Your Results ✨';
+    stepLabel.textContent = 'Analyzing your situation ✨';
     backBtn.style.display = 'none';
-    nextBtn.textContent = '🔄 Start Over';
+    nextBtn.style.display = 'none'; // hide until done
 
-    var scriptIdx = _store(RESULT_SCRIPT);
-    var tipsHtml = RESULT_TIPS.map(function(t) { return '<li>' + t + '</li>'; }).join('');
+    body.innerHTML = '<div style="text-align:center; padding: 40px 0;"><div class="ai-spinner" style="margin:0 auto 16px;"></div><p style="color:var(--text-muted)">Crafting your personalised strategy...</p></div>';
 
-    body.innerHTML =
-      '<div class="wizard-result">' +
-      '<h3>🎯 Your Personalised Communication Strategy</h3>' +
-      '<div class="result-script">' + RESULT_SCRIPT.replace(/\n/g, '<br>') + '</div>' +
-      '<p style="font-weight:700;margin-bottom:10px;font-size:0.9rem;margin-top:16px;">Pro tips for your situation:</p>' +
-      '<ul class="result-tips">' + tipsHtml + '</ul>' +
-      '<button class="btn btn-sm btn-outline" style="margin-top:20px" onclick="_cbCopy(this,' + scriptIdx + ')">📋 Copy Script</button>' +
-      '</div>';
-
-    // Rebind Start Over
-    nextBtn.replaceWith(nextBtn.cloneNode(true));
-    var freshNext = document.getElementById('wizardNext');
-    freshNext && freshNext.addEventListener('click', function() {
-      wizardStep = 0;
-      wizardAnswers = [];
-      freshNext.textContent = 'Next →';
-      freshNext.replaceWith(freshNext.cloneNode(true));
-      var reboundNext = document.getElementById('wizardNext');
-      reboundNext && reboundNext.addEventListener('click', wizardNext);
-      renderWizardStep();
-    });
+    // Kick off generation
+    if (apiKeys.gemini || apiKeys.groq || apiKeys.openrouter) {
+      runWizardAi(wizardAnswers).then(renderWizardResults).catch(function(err) {
+        console.error(err);
+        renderWizardResults(generateFallbackWizard(wizardAnswers));
+      });
+    } else {
+      setTimeout(function() { renderWizardResults(generateFallbackWizard(wizardAnswers)); }, 800);
+    }
     return;
   }
 
@@ -517,6 +640,147 @@ function wizardBack() {
     wizardStep--;
     renderWizardStep();
   }
+}
+
+// ── WIZARD DYNAMIC ENGINE ─────────────────────────────────────
+
+function renderWizardResults(data) {
+  var body = document.getElementById('wizardBody');
+  var stepLabel = document.getElementById('stepLabel');
+  var nextBtn = document.getElementById('wizardNext');
+  
+  stepLabel.textContent = 'Your Results ✨';
+  nextBtn.style.display = 'inline-flex';
+  nextBtn.textContent = '🔄 Start Over';
+
+  var scriptIdx = _store(data.script);
+  var tipsHtml = (data.tips || []).map(function(t) { return '<li>' + t + '</li>'; }).join('');
+
+  body.innerHTML =
+    '<div class="wizard-result">' +
+    '<h3>🎯 Your Personalised Communication Strategy</h3>' +
+    '<div class="result-script">' + data.script.replace(/\n/g, '<br>') + '</div>' +
+    '<p style="font-weight:700;margin-bottom:10px;font-size:0.9rem;margin-top:16px;">Pro tips for your situation:</p>' +
+    '<ul class="result-tips">' + tipsHtml + '</ul>' +
+    '<button class="btn btn-sm btn-outline" style="margin-top:20px" onclick="_cbCopy(this,' + scriptIdx + ')">📋 Copy Script</button>' +
+    '</div>';
+
+  // Rebind Start Over
+  nextBtn.replaceWith(nextBtn.cloneNode(true));
+  var freshNext = document.getElementById('wizardNext');
+  freshNext && freshNext.addEventListener('click', function() {
+    wizardStep = 0;
+    wizardAnswers = [];
+    freshNext.textContent = 'Next →';
+    freshNext.replaceWith(freshNext.cloneNode(true));
+    var reboundNext = document.getElementById('wizardNext');
+    reboundNext && reboundNext.addEventListener('click', wizardNext);
+    renderWizardStep();
+  });
+}
+
+function generateFallbackWizard(answers) {
+  var areaIdx = answers[0] || 0;
+  var sitIdx = answers[1] || 0;
+  var goalIdx = answers[2] || 0;
+  var comfIdx = answers[3] || 0;
+
+  var script = "Start by choosing the right time and place — somewhere private and calm.\n\nOpen with:\n";
+  if (areaIdx === 0) script += '"Do you have a moment to align on a recent situation? I want to make sure we are on the same page."\n\n';
+  else if (areaIdx === 1) script += '"I love you and I want us to communicate well. There is something on my mind we need to discuss."\n\n';
+  else script += '"I value our relationship and I want to be honest with you about something."\n\n';
+
+  script += 'Then:\n';
+  if (sitIdx === 0) script += '- Address the tension: "I’ve noticed some friction between us recently..."\n';
+  else if (sitIdx === 1) script += '- Bring up the unsaid: "I haven\'t brought this up before, but..."\n';
+  else if (sitIdx === 2) script += '- Draw a line: "I need to set a boundary regarding..."\n';
+  else script += '- Express your feelings using "I feel" statements, without blaming.\n';
+
+  script += '\nClose with:\n';
+  if (goalIdx === 0) script += '"How can we solve this together so we can move forward?"';
+  else if (goalIdx === 2) script += '"I hope you can respect this boundary moving forward."';
+  else script += '"What are your thoughts on this?"';
+
+  var tips = [
+    'Take 3 deep breaths before you start — it slows your nervous system.',
+    'Focus on the issue, not the person.'
+  ];
+  if (comfIdx === 0) tips.push('Write down your key points in advance so you don\'t lose track.');
+  if (comfIdx === 3) tips.push('Make sure you listen as much as you speak.');
+  else tips.push('If emotions run high, suggest a 5-minute pause.');
+
+  return { script: script, tips: tips };
+}
+
+async function runWizardAi(answers) {
+  var area = WIZARD_STEPS[0].options[answers[0] || 0].label;
+  var sit = WIZARD_STEPS[1].options[answers[1] || 0].label;
+  var goal = WIZARD_STEPS[2].options[answers[2] || 0].label;
+  var comf = WIZARD_STEPS[3].options[answers[3] || 0].label;
+
+  var prompt = "You are an expert communication coach.\n" +
+    "The user needs a script to navigate a difficult conversation.\n" +
+    "Area: " + area + "\n" +
+    "Situation: " + sit + "\n" +
+    "Goal: " + goal + "\n" +
+    "Comfort Level: " + comf + "\n\n" +
+    "Provide a highly effective, empathetic, and assertive script they can use. Also provide 3 actionable, specific psychological tips for them.\n" +
+    "Return ONLY valid JSON in this format:\n" +
+    "{\n" +
+    '  "script": "<the multi-paragraph script>",\n' +
+    '  "tips": ["<tip 1>", "<tip 2>", "<tip 3>"]\n' +
+    "}";
+
+  // Use the existing provider fallback logic
+  var providerChain = [];
+  if (primaryProvider === 'gemini') { providerChain = ['gemini', 'groq', 'openrouter']; }
+  else if (primaryProvider === 'groq') { providerChain = ['groq', 'gemini', 'openrouter']; }
+  else { providerChain = ['openrouter', 'gemini', 'groq']; }
+
+  for (var i = 0; i < providerChain.length; i++) {
+    var p = providerChain[i];
+    if (!apiKeys[p]) continue;
+    try {
+      if (p === 'gemini') return await _callGeminiWizard(apiKeys.gemini, prompt);
+      if (p === 'groq') return await _callGroqWizard(apiKeys.groq, prompt);
+      if (p === 'openrouter') return await _callOpenRouterWizard(apiKeys.openrouter, prompt);
+    } catch (err) {
+      console.warn(p + ' wizard failed:', err);
+    }
+  }
+  throw new Error('All configured AI providers failed.');
+}
+
+async function _callGeminiWizard(key, prompt) {
+  var res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + key, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: 'application/json' } })
+  });
+  if (!res.ok) throw new Error('Gemini error');
+  var data = await res.json();
+  return JSON.parse(data.candidates[0].content.parts[0].text);
+}
+
+async function _callGroqWizard(key, prompt) {
+  var res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST', headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model: 'llama3-8b-8192', messages: [{ role: 'system', content: 'You always return valid JSON.'}, { role: 'user', content: prompt }] })
+  });
+  if (!res.ok) throw new Error('Groq error');
+  var data = await res.json();
+  var resultText = data.choices[0].message.content.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
+  return JSON.parse(resultText);
+}
+
+async function _callOpenRouterWizard(key, prompt) {
+  var res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST', headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json', 'HTTP-Referer': window.location.href, 'X-Title': 'CommBridge' },
+    body: JSON.stringify({ model: 'openrouter/free', messages: [{ role: 'system', content: 'You always return valid JSON.'}, { role: 'user', content: prompt }] })
+  });
+  if (!res.ok) throw new Error('OpenRouter error');
+  var data = await res.json();
+  var resultText = data.choices[0].message.content.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
+  return JSON.parse(resultText);
 }
 
 // ── UTILS ────────────────────────────────────────────────────
@@ -628,7 +892,8 @@ const ASSERTIVE_OPENERS = [
 let analyzerDebounce = null;
 let lastRewriteText = '';
 let lastAnalyzedText = '';
-let geminiApiKey = '';
+let apiKeys = { gemini: '', groq: '', openrouter: '' };
+let primaryProvider = 'gemini';
 let isAiAnalyzing = false;
 
 function initAnalyzer() {
@@ -655,7 +920,7 @@ function initAnalyzer() {
       if (analyzeHint) analyzeHint.textContent = 'Type a message, then click to analyze';
     } else {
       if (analyzeHint) {
-        if (geminiApiKey) {
+        if (apiKeys.gemini || apiKeys.groq || apiKeys.openrouter) {
           analyzeHint.textContent = 'Click the button or press Ctrl+Enter';
         } else {
           analyzeHint.textContent = 'Add an API key above to enable AI analysis';
@@ -700,7 +965,7 @@ function triggerAnalysis(textarea) {
   var analyzeBtn = document.getElementById('analyzeBtn');
   var analyzeHint = document.getElementById('analyzeHint');
 
-  if (geminiApiKey) {
+  if (apiKeys.gemini || apiKeys.groq || apiKeys.openrouter) {
     // AI-powered analysis
     runAiAnalysis(text);
   } else {
@@ -713,14 +978,39 @@ function triggerAnalysis(textarea) {
 // ── API Key Management ────────────────────────────────────────
 
 function initApiKeyUI() {
-  geminiApiKey = localStorage.getItem('commbridge_gemini_key') || '';
+  // Load from URL first (to support sharing), then fallback to localStorage
+  var urlParams = new URLSearchParams(window.location.search);
+  
+  apiKeys.gemini = urlParams.get('gemini') || localStorage.getItem('commbridge_gemini_key') || '';
+  apiKeys.groq = urlParams.get('groq') || localStorage.getItem('commbridge_groq_key') || '';
+  apiKeys.openrouter = urlParams.get('openrouter') || localStorage.getItem('commbridge_openrouter_key') || '';
+  primaryProvider = urlParams.get('provider') || localStorage.getItem('commbridge_primary_provider') || 'gemini';
+
+  // If keys were in URL, automatically save them to local storage so they persist
+  if (urlParams.get('gemini')) localStorage.setItem('commbridge_gemini_key', apiKeys.gemini);
+  if (urlParams.get('groq')) localStorage.setItem('commbridge_groq_key', apiKeys.groq);
+  if (urlParams.get('openrouter')) localStorage.setItem('commbridge_openrouter_key', apiKeys.openrouter);
+  if (urlParams.get('provider')) localStorage.setItem('commbridge_primary_provider', primaryProvider);
+
   updateApiKeyStatus();
+  updateShareableUrl();
 
   var toggleBtn = document.getElementById('apiKeyToggle');
   var saveBtn = document.getElementById('apiKeySave');
   var clearBtn = document.getElementById('apiKeyClear');
   var panel = document.getElementById('apiKeyPanel');
   var input = document.getElementById('apiKeyInput');
+  var providerSelect = document.getElementById('apiProvider');
+
+  if (providerSelect) {
+    providerSelect.value = primaryProvider;
+    providerSelect.addEventListener('change', function() {
+      primaryProvider = providerSelect.value;
+      localStorage.setItem('commbridge_primary_provider', primaryProvider);
+      updateApiInputForProvider();
+    });
+    updateApiInputForProvider();
+  }
 
   if (toggleBtn) {
     toggleBtn.addEventListener('click', function() {
@@ -733,32 +1023,60 @@ function initApiKeyUI() {
     saveBtn.addEventListener('click', function() {
       var key = input.value.trim();
       if (!key) { showToast('Please enter an API key'); return; }
-      geminiApiKey = key;
-      localStorage.setItem('commbridge_gemini_key', key);
-      input.value = '';
+      apiKeys[primaryProvider] = key;
+      localStorage.setItem('commbridge_' + primaryProvider + '_key', key);
       panel.classList.remove('open');
       if (toggleBtn) toggleBtn.textContent = 'Configure';
       updateApiKeyStatus();
-      showToast('API key saved! AI analysis is now active \u2728');
+      updateShareableUrl();
+      showToast(primaryProvider.toUpperCase() + ' API key saved! \u2728');
     });
   }
 
   if (clearBtn) {
     clearBtn.addEventListener('click', function() {
-      geminiApiKey = '';
-      localStorage.removeItem('commbridge_gemini_key');
+      apiKeys[primaryProvider] = '';
+      localStorage.removeItem('commbridge_' + primaryProvider + '_key');
       input.value = '';
       updateApiKeyStatus();
-      showToast('API key cleared — using basic mode');
+      updateShareableUrl();
+      showToast(primaryProvider.toUpperCase() + ' key cleared.');
     });
+  }
+}
+
+function updateShareableUrl() {
+  var url = new URL(window.location.href);
+  if (apiKeys.gemini) url.searchParams.set('gemini', apiKeys.gemini); else url.searchParams.delete('gemini');
+  if (apiKeys.groq) url.searchParams.set('groq', apiKeys.groq); else url.searchParams.delete('groq');
+  if (apiKeys.openrouter) url.searchParams.set('openrouter', apiKeys.openrouter); else url.searchParams.delete('openrouter');
+  if (primaryProvider) url.searchParams.set('provider', primaryProvider); else url.searchParams.delete('provider');
+  window.history.replaceState({}, '', url);
+}
+
+function updateApiInputForProvider() {
+  var input = document.getElementById('apiKeyInput');
+  var desc = document.getElementById('apiKeyDesc');
+  if (!input || !desc) return;
+  
+  if (primaryProvider === 'gemini') {
+    desc.innerHTML = 'Enter a free <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google Gemini API key</a> for AI-powered tone analysis. <strong>Keys are stored locally. The app will automatically fall back to other providers if your quota runs out.</strong>';
+    input.value = apiKeys.gemini;
+  } else if (primaryProvider === 'groq') {
+    desc.innerHTML = 'Enter a free <a href="https://console.groq.com/keys" target="_blank" rel="noopener">Groq API key</a> for ultra-fast Llama 3 analysis. <strong>Keys are stored locally.</strong>';
+    input.value = apiKeys.groq;
+  } else if (primaryProvider === 'openrouter') {
+    desc.innerHTML = 'Enter an <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">OpenRouter API key</a> to access free and premium models. <strong>Keys are stored locally.</strong>';
+    input.value = apiKeys.openrouter;
   }
 }
 
 function updateApiKeyStatus() {
   var statusEl = document.getElementById('apiKeyStatus');
   if (!statusEl) return;
-  if (geminiApiKey) {
-    statusEl.textContent = '\u2713 AI mode active';
+  var hasAnyKey = apiKeys.gemini || apiKeys.groq || apiKeys.openrouter;
+  if (hasAnyKey) {
+    statusEl.textContent = '\u2713 AI mode active (' + primaryProvider + ')';
     statusEl.classList.add('active');
   } else {
     statusEl.textContent = 'No key set — using basic mode';
@@ -769,7 +1087,8 @@ function updateApiKeyStatus() {
 // ── Gemini AI Analysis ────────────────────────────────────────
 
 async function runAiAnalysis(text) {
-  if (!geminiApiKey || !text.trim()) return;
+  var hasAnyKey = apiKeys.gemini || apiKeys.groq || apiKeys.openrouter;
+  if (!hasAnyKey || !text.trim()) return;
   if (isAiAnalyzing) return;
   isAiAnalyzing = true;
 
@@ -777,7 +1096,6 @@ async function runAiAnalysis(text) {
   var analyzeHint = document.getElementById('analyzeHint');
   var statusEl = document.getElementById('analyzerStatus');
 
-  // Set loading state
   if (analyzeBtn) {
     analyzeBtn.classList.add('loading');
     analyzeBtn.disabled = true;
@@ -789,27 +1107,54 @@ async function runAiAnalysis(text) {
     statusEl.innerHTML = '<span class="ai-loading"><span class="ai-spinner"></span>AI is analyzing your message...</span>';
   }
 
+  const PROVIDER_ORDER = ['gemini', 'groq', 'openrouter'];
+  var providersToTry = [primaryProvider];
+  PROVIDER_ORDER.forEach(p => {
+    if (p !== primaryProvider && apiKeys[p]) providersToTry.push(p);
+  });
+
+  var result = null;
+  var finalErr = null;
+
   try {
-    // Try primary model first, fallback to lite
-    var result = null;
-    try {
-      result = await callGemini(text, 'gemini-2.0-flash');
-    } catch (primaryErr) {
-      console.warn('Primary model failed, trying fallback:', primaryErr.message);
-      result = await callGemini(text, 'gemini-2.0-flash-lite');
+    for (var i = 0; i < providersToTry.length; i++) {
+      var provider = providersToTry[i];
+      if (!apiKeys[provider]) continue;
+      
+      if (statusEl && i > 0) {
+        statusEl.innerHTML = '<span class="ai-loading"><span class="ai-spinner"></span>Falling back to ' + provider + '...</span>';
+      }
+      
+      try {
+        if (provider === 'gemini') {
+          result = await tryGemini(text);
+        } else if (provider === 'groq') {
+          result = await callGroq(text);
+        } else if (provider === 'openrouter') {
+          result = await callOpenRouter(text);
+        }
+        
+        if (result) break; // Success!
+      } catch (err) {
+        console.warn(provider + ' failed:', err.message);
+        finalErr = err;
+      }
     }
 
     if (result) {
       applyAiResults(result, text);
       lastAnalyzedText = text;
       if (analyzeHint) analyzeHint.textContent = 'Analysis complete \u2714';
+    } else {
+      throw finalErr || new Error("All AI providers failed.");
     }
   } catch (err) {
-    console.warn('AI analysis failed:', err.message);
+    console.warn('AI analysis failed:', err ? err.message : 'Unknown');
     // Fall back to regex
     runAnalysis(text);
     if (statusEl) {
-      var shortErr = err.message.length > 80 ? err.message.substring(0, 80) + '...' : err.message;
+      var errStr = err ? err.message : "Error";
+      var shortErr = errStr.length > 80 ? errStr.substring(0, 80) + '...' : errStr;
       statusEl.textContent = '\u26a0\ufe0f ' + shortErr;
     }
     if (analyzeHint) analyzeHint.textContent = 'AI failed — showing basic analysis. Try again later.';
@@ -824,33 +1169,24 @@ async function runAiAnalysis(text) {
   }
 }
 
+async function tryGemini(text) {
+  try {
+    return await callGemini(text, 'gemini-2.0-flash');
+  } catch (primaryErr) {
+    console.warn('Primary Gemini model failed, trying fallback:', primaryErr.message);
+    return await callGemini(text, 'gemini-2.0-flash-lite');
+  }
+}
+
 async function callGemini(text, model) {
   model = model || 'gemini-2.0-flash';
   var prompt = [
-    "You are CommScore, a communication coach AI. Your job is to analyze ANY text a user types — whether it's a polished message, casual slang, gibberish, profanity, or anything else.",
+    buildSystemPrompt(),
     "",
-    "Rules:",
-    "- Always respond, never refuse. This is an educational tool.",
-    "- If the text is gibberish/nonsensical, say so in your explanation and give a low power score.",
-    "- If the text contains profanity or slang, analyze it objectively — note the aggression without being judgmental.",
-    "- If the text is very short (1-3 words), still analyze the tone and intent.",
-    "- The rewrite should always be a constructive, assertive alternative that preserves the user's intent.",
-    "",
-    "MESSAGE TO ANALYZE: \"" + text.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + "\"",
-    "",
-    "Respond with ONLY valid JSON in this exact structure:",
-    "{",
-    '  "toneScore": <number from -100 to 100. -100=very passive, 0=perfectly assertive, 100=very aggressive>,',
-    '  "toneLabel": "<one of: Passive, Slightly Passive, Assertive, Slightly Aggressive, Aggressive>",',
-    '  "powerScore": <number 0-100. Higher = more effective communication. Gibberish/nonsense = 5-15, profanity = 10-25, weak/passive = 25-45, decent = 50-70, strong assertive = 75-100>,',
-    '  "scoreDesc": "<2-3 word descriptor like: Excellent communicator, Strong & clear, Room to improve, Needs reworking, High risk of conflict, Not a real message>",',
-    '  "patterns": [{"type": "<aggressive|passive|assertive>", "label": "<short pattern name like: Profanity, Slang, Blame language, Hedging, Clear need>", "phrase": "<exact words from the message>"}],',
-    '  "rewrite": "<a better, assertive version preserving intent. If gibberish, suggest what they might mean to say>",',
-    '  "explanation": "<1-2 sentences explaining the tone, what works, what could improve>"',
-    "}"
+    "MESSAGE TO ANALYZE: \"" + text.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + "\""
   ].join("\n");
 
-  var url = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent?key=" + geminiApiKey;
+  var url = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent?key=" + apiKeys.gemini;
 
   var response = await fetch(url, {
     method: 'POST',
@@ -910,6 +1246,85 @@ async function callGemini(text, model) {
     console.error('Failed to parse Gemini JSON:', rawText);
     throw new Error('Invalid JSON from AI');
   }
+}
+
+function buildSystemPrompt() {
+  return [
+    "You are CommScore, an expert communication coach AI.",
+    "Your job is to analyze ANY text a user types and provide a highly effective, emotionally intelligent rewrite.",
+    "Rules:",
+    "1. Always respond with valid JSON.",
+    "2. If the text is gibberish/nonsensical, say so.",
+    "3. The 'rewrite' MUST dramatically improve the message. Transform passive, aggressive, or passive-aggressive language into clear, mature, assertive, and respectful communication. NEVER just repeat the user's input.",
+    "4. Even for short inputs (e.g. 'leave me alone'), expand them into polite but firm boundary statements.",
+    "5. For 'patterns', you MUST dynamically identify phrases from the text that set the tone. Create at least 1-3 patterns for ANY text. Label them descriptively (e.g., 'Aggressive Blame', 'Overly Passive', 'Clear Boundary'). The 'phrase' must exactly match a substring in the user's text.",
+    "Respond with ONLY valid JSON in this exact structure:",
+    "{",
+    '  "toneScore": <number from -100 to 100. CRITICAL SCALE: -100 = Extremely Passive. 0 = Perfectly Assertive. +100 = Extremely Aggressive. (Do NOT give 100 for assertive! Assertive must be exactly 0)>,',
+    '  "toneLabel": "<one of: Passive, Slightly Passive, Assertive, Slightly Aggressive, Aggressive>",',
+    '  "powerScore": <number 0-100. 0=Gibberish/Weak. 50=Average. 100=Highly effective, mature, respectful boundary setting>,',
+    '  "scoreDesc": "<2-3 word descriptor like: Excellent communicator, Room to improve, High conflict risk>",',
+    '  "patterns": [{"type": "<aggressive|passive|assertive>", "label": "<descriptive name>", "phrase": "<exact substring from the message>"}],',
+    '  "rewrite": "<a highly effective, transformed, emotionally intelligent version of the message>",',
+    '  "explanation": "<1-2 sentences explaining why the rewrite is better>"',
+    "}"
+  ].join('\n');
+}
+
+async function callGroq(text) {
+  var response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + apiKeys.groq
+    },
+    body: JSON.stringify({
+      model: 'llama3-8b-8192',
+      messages: [
+        { role: 'system', content: buildSystemPrompt() },
+        { role: 'user', content: 'MESSAGE TO ANALYZE: "' + text + '"' }
+      ],
+      temperature: 0.3
+    })
+  });
+  
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error('Groq Error ' + response.status + ': ' + errorText);
+  }
+  var data = await response.json();
+  var resultText = data.choices[0].message.content;
+  return JSON.parse(resultText);
+}
+
+async function callOpenRouter(text) {
+  var response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + apiKeys.openrouter,
+      'HTTP-Referer': window.location.href,
+      'X-Title': 'CommBridge'
+    },
+    body: JSON.stringify({
+      model: 'openrouter/free',
+      messages: [
+        { role: 'system', content: buildSystemPrompt() },
+        { role: 'user', content: 'MESSAGE TO ANALYZE: "' + text + '"' }
+      ],
+      temperature: 0.3
+    })
+  });
+  
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error('OpenRouter Error ' + response.status + ': ' + errorText);
+  }
+  var data = await response.json();
+  var resultText = data.choices[0].message.content;
+  
+  resultText = resultText.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
+  return JSON.parse(resultText);
 }
 
 function applyAiResults(ai, originalText) {
@@ -1253,8 +1668,8 @@ function initParticles() {
   const ctx = canvas.getContext('2d');
 
   // ── Config ──
-  const PARTICLE_COUNT = 85;
-  const CONNECT_DIST = 160;
+  const PARTICLE_COUNT = 280;
+  const CONNECT_DIST = 250;
   const MOUSE_RADIUS = 200;
   const MOUSE_FORCE = 0.06;
   const BASE_SPEED = 0.35;
@@ -1269,10 +1684,9 @@ function initParticles() {
 
   // ── Colors matching the design system ──
   const COLORS = [
-    { r: 108, g: 99,  b: 255 },  // accent purple
-    { r: 167, g: 139, b: 250 },  // accent2 lavender
-    { r: 56,  g: 189, b: 248 },  // accent3 sky
-    { r: 52,  g: 211, b: 153 },  // success green
+    { r: 59, g: 54,  b: 156 },   // vibrant indigo
+    { r: 10, g: 122, b: 92 },    // vibrant emerald
+    { r: 138, g: 15,  b: 15 }    // vibrant crimson
   ];
 
   // ── Particle class ──
@@ -1285,8 +1699,8 @@ function initParticles() {
     this.y = Math.random() * H;
     this.z = Math.random();  // 0 (far) → 1 (close)
     this.layer = Math.floor(this.z * DEPTH_LAYERS);
-    var sizeRange = 1 + this.z * 2.5;  // far particles smaller
-    this.radius = sizeRange + Math.random() * 1.5;
+    var sizeRange = 1.5 + this.z * 2.5;  // far particles smaller
+    this.radius = sizeRange + Math.random() * 2;
     this.baseRadius = this.radius;
     // Velocity — deeper particles move slower (parallax feel)
     var speed = BASE_SPEED * (0.3 + this.z * 0.7);
@@ -1297,7 +1711,7 @@ function initParticles() {
     var c = COLORS[Math.floor(Math.random() * COLORS.length)];
     this.r = c.r; this.g = c.g; this.b = c.b;
     // Opacity — deeper particles are dimmer
-    this.baseAlpha = 0.15 + this.z * 0.45;
+    this.baseAlpha = 0.45 + this.z * 0.5;
     this.alpha = this.baseAlpha;
     // Pulse phase
     this.pulse = Math.random() * Math.PI * 2;
@@ -1311,12 +1725,25 @@ function initParticles() {
     this.radius = this.baseRadius * pulseFactor;
     this.alpha = this.baseAlpha * (0.7 + Math.sin(this.pulse) * 0.3);
 
-    // Scroll parallax — deeper particles shift less
-    var parallaxY = scrollY * (0.02 + this.z * 0.06);
+    // Move
+    this.x += this.vx;
+    this.y += this.vy;
 
-    // Mouse repulsion
-    var dx = this.x - mouseX;
-    var dy = (this.y + parallaxY) - mouseY;
+    var parallaxY = scrollY * (0.05 + this.z * 0.15);
+    var parallaxX = (mouseX !== -9999 ? (mouseX - W/2) * (0.05 + this.z * 0.1) : 0);
+
+    // Wrap rendered coordinates so they are always visible on screen
+    var rx = (this.x - parallaxX) % (W + 40);
+    if (rx < -20) rx += W + 40;
+    var ry = (this.y - parallaxY) % (H + 40);
+    if (ry < -20) ry += H + 40;
+    
+    this.renderX = rx;
+    this.renderY = ry;
+
+    // Mouse repulsion based on visual position
+    var dx = this.renderX - mouseX;
+    var dy = this.renderY - mouseY;
     var dist = Math.sqrt(dx * dx + dy * dy);
     if (dist < MOUSE_RADIUS && dist > 0) {
       var force = (1 - dist / MOUSE_RADIUS) * MOUSE_FORCE * (1 + this.z);
@@ -1335,31 +1762,18 @@ function initParticles() {
     var maxV = BASE_SPEED * 2;
     var v = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
     if (v > maxV) { this.vx = (this.vx / v) * maxV; this.vy = (this.vy / v) * maxV; }
-
-    // Move
-    this.x += this.vx;
-    this.y += this.vy;
-
-    // Wrap edges
-    if (this.x < -20) this.x = W + 20;
-    if (this.x > W + 20) this.x = -20;
-    if (this.y < -20) this.y = H + 20;
-    if (this.y > H + 20) this.y = -20;
-
-    // Store rendered y (with parallax)
-    this.renderY = this.y - parallaxY;
   };
 
   Particle.prototype.draw = function() {
     // Outer glow
     ctx.beginPath();
-    ctx.arc(this.x, this.renderY, this.radius * 3, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + (this.alpha * 0.08) + ')';
+    ctx.arc(this.renderX, this.renderY, this.radius * 3, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + (this.alpha * 0.15) + ')';
     ctx.fill();
 
     // Core dot
     ctx.beginPath();
-    ctx.arc(this.x, this.renderY, this.radius, 0, Math.PI * 2);
+    ctx.arc(this.renderX, this.renderY, this.radius, 0, Math.PI * 2);
     ctx.fillStyle = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + this.alpha + ')';
     ctx.fill();
   };
@@ -1371,20 +1785,20 @@ function initParticles() {
         var a = particles[i], b = particles[j];
         // Only connect same or adjacent depth layers
         if (Math.abs(a.layer - b.layer) > 1) continue;
-        var dx = a.x - b.x;
+        var dx = a.renderX - b.renderX;
         var dy = a.renderY - b.renderY;
         var dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < CONNECT_DIST) {
-          var opacity = (1 - dist / CONNECT_DIST) * 0.15 * Math.min(a.alpha, b.alpha) / 0.6;
+          var opacity = (1 - dist / CONNECT_DIST) * 0.5 * Math.min(a.alpha, b.alpha) / 0.6;
           // Blend colors
           var cr = Math.round((a.r + b.r) / 2);
           var cg = Math.round((a.g + b.g) / 2);
           var cb = Math.round((a.b + b.b) / 2);
           ctx.beginPath();
-          ctx.moveTo(a.x, a.renderY);
-          ctx.lineTo(b.x, b.renderY);
+          ctx.moveTo(a.renderX, a.renderY);
+          ctx.lineTo(b.renderX, b.renderY);
           ctx.strokeStyle = 'rgba(' + cr + ',' + cg + ',' + cb + ',' + opacity + ')';
-          ctx.lineWidth = 0.6 + Math.min(a.z, b.z) * 0.8;
+          ctx.lineWidth = 0.8 + Math.min(a.z, b.z) * 1.0;
           ctx.stroke();
         }
       }
@@ -1395,8 +1809,8 @@ function initParticles() {
   function drawMouseGlow() {
     if (mouseX < -1000) return;
     var grad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, MOUSE_RADIUS * 1.2);
-    grad.addColorStop(0,   'rgba(108, 99, 255, 0.06)');
-    grad.addColorStop(0.5, 'rgba(56, 189, 248, 0.02)');
+    grad.addColorStop(0,   'rgba(30, 27, 75, 0.08)');
+    grad.addColorStop(0.5, 'rgba(6, 78, 59, 0.03)');
     grad.addColorStop(1,   'rgba(0, 0, 0, 0)');
     ctx.fillStyle = grad;
     ctx.fillRect(mouseX - MOUSE_RADIUS * 1.5, mouseY - MOUSE_RADIUS * 1.5,

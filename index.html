@@ -40,12 +40,14 @@
       <div class="orb orb-1"></div>
       <div class="orb orb-2"></div>
       <div class="orb orb-3"></div>
+      <div class="orb orb-4"></div>
+      <div class="orb orb-5"></div>
     </div>
     <div class="hero-content">
       <div class="hero-badge">🔥 Your real-life communication toolkit</div>
       <h1 class="hero-title">
-        Turn Awkward Moments Into<br />
-        <span class="gradient-text">Powerful Connections</span>
+        Turn Awkward Moments Into
+        <span class="highlight">Powerful Connections</span>
       </h1>
       <p class="hero-sub">
         Whether it's a tough conversation with a boss, a sensitive talk with a partner,<br />
@@ -56,18 +58,41 @@
         <a href="#scenarios" class="btn btn-outline">Browse Scenarios</a>
       </div>
       <div class="hero-stats">
-        <div class="stat"><span class="stat-num">50+</span><span class="stat-label">Scenarios</span></div>
+        <div class="stat"><span class="stat-num">20+</span><span class="stat-label">Scenarios</span></div>
         <div class="stat-divider"></div>
-        <div class="stat"><span class="stat-num">30+</span><span class="stat-label">Templates</span></div>
+        <div class="stat"><span class="stat-num">6</span><span class="stat-label">Templates</span></div>
         <div class="stat-divider"></div>
         <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Free</span></div>
       </div>
     </div>
     <div class="hero-visual">
-      <div class="chat-mock">
-        <div class="chat-bubble left">I feel overwhelmed by the workload 😔</div>
-        <div class="chat-bubble right">I understand. Let's talk about solutions together.</div>
-        <div class="chat-bubble left">I didn't know how to say that before CommBridge!</div>
+      <div class="chat-mock-container">
+        <div class="chat-mock">
+          <div class="chat-header">
+            <div class="chat-header-user">
+              <div class="chat-avatar">👨‍💼</div>
+              <div>
+                <div class="chat-name">Alex (Manager)</div>
+                <div class="chat-status">Active now</div>
+              </div>
+            </div>
+            <div class="chat-header-actions">•••</div>
+          </div>
+          <div class="chat-body">
+            <div class="chat-msg left">
+              <div class="chat-bubble">I feel overwhelmed by the workload 😔</div>
+              <div class="chat-time">10:42 AM</div>
+            </div>
+            <div class="chat-msg right">
+              <div class="chat-bubble">I understand. Let's talk about solutions together.</div>
+              <div class="chat-time">10:45 AM • Read</div>
+            </div>
+            <div class="chat-msg left">
+              <div class="chat-bubble">I didn't know how to say that before CommBridge! 🚀</div>
+              <div class="chat-time">10:46 AM</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -75,12 +100,12 @@
   <!-- ──────────────── COMMSSCORE ANALYZER ──────────────── -->
   <section class="section analyzer-section" id="analyzer">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header fade-in">
         <span class="section-tag">⚡ CommBridge Exclusive</span>
         <h2 class="section-title">CommScore™ Analyzer</h2>
         <p class="section-sub">Type what you want to say — see your tone instantly, spot patterns, and get a smarter rewrite.</p>
       </div>
-      <div class="analyzer-card">
+      <div class="analyzer-card fade-in">
         <!-- API Key Config -->
         <div class="api-key-bar" id="apiKeyBar">
           <div class="api-key-row">
@@ -92,9 +117,17 @@
             <button class="btn btn-sm btn-outline" id="apiKeyToggle" type="button">Configure</button>
           </div>
           <div class="api-key-panel" id="apiKeyPanel">
-            <p class="api-key-desc">Enter a free <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google Gemini API key</a> for AI-powered tone analysis, contextual pattern detection, and smart rewrites. <strong>Your key is stored locally and never sent anywhere except Google's API.</strong></p>
+            <div class="api-provider-select" style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+              <label for="apiProvider" style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">AI Provider:</label>
+              <select id="apiProvider" class="api-select">
+                <option value="gemini">Google Gemini (Default)</option>
+                <option value="groq">Groq (Ultra Fast Llama 3)</option>
+                <option value="openrouter">OpenRouter (Any Model)</option>
+              </select>
+            </div>
+            <p class="api-key-desc" id="apiKeyDesc">Enter a free <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google Gemini API key</a> for AI-powered tone analysis. <strong>Keys are stored locally. The app will automatically fall back to other providers if your quota runs out.</strong></p>
             <div class="api-key-input-row">
-              <input type="password" id="apiKeyInput" class="api-key-input" placeholder="Paste your Gemini API key here..." autocomplete="off" />
+              <input type="password" id="apiKeyInput" class="api-key-input" placeholder="Paste your API key here..." autocomplete="off" />
               <button class="btn btn-sm btn-primary" id="apiKeySave" type="button">Save Key</button>
               <button class="btn btn-sm btn-outline" id="apiKeyClear" type="button">Clear</button>
             </div>
@@ -120,7 +153,7 @@
             <div class="metric-card gauge-card">
               <div class="metric-label">Tone Meter</div>
               <div class="gauge-wrap">
-                <svg class="gauge-svg" viewBox="0 0 220 128" xmlns="http://www.w3.org/2000/svg">
+                <svg class="gauge-svg" viewBox="0 0 220 145" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <linearGradient id="gaugeGrad" x1="0%" y1="50%" x2="100%" y2="50%">
                       <stop offset="0%"   stop-color="#38bdf8"/>
@@ -137,9 +170,9 @@
                   </g>
                   <circle cx="110" cy="115" r="10" fill="#111728"/>
                   <circle cx="110" cy="115" r="5"  fill="rgba(255,255,255,0.9)"/>
-                  <text x="8"  y="128" fill="#38bdf8" font-size="8.5" font-family="Inter,sans-serif" font-weight="700">Passive</text>
-                  <text x="78" y="16"  fill="#34d399" font-size="8.5" font-family="Inter,sans-serif" font-weight="700">Assertive</text>
-                  <text x="162" y="128" fill="#f87171" font-size="8.5" font-family="Inter,sans-serif" font-weight="700">Aggressive</text>
+                  <text x="20"  y="140" fill="#38bdf8" font-size="11" font-family="Inter,sans-serif" font-weight="800" text-anchor="middle">Passive</text>
+                  <text x="110" y="10"  fill="#34d399" font-size="11" font-family="Inter,sans-serif" font-weight="800" text-anchor="middle">Assertive</text>
+                  <text x="200" y="140" fill="#f87171" font-size="11" font-family="Inter,sans-serif" font-weight="800" text-anchor="middle">Aggressive</text>
                 </svg>
                 <div class="gauge-tone-label" id="gaugeToneLabel">—</div>
               </div>
@@ -202,15 +235,14 @@
   <!-- ──────────────── SCENARIOS ──────────────── -->
   <section class="section scenarios-section" id="scenarios">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header fade-in">
         <span class="section-tag">Scenarios</span>
         <h2 class="section-title">What's Your Challenge?</h2>
         <p class="section-sub">Select a situation to get tailored guidance, scripts, and tips.</p>
       </div>
 
       <div class="scenario-filters">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="work">Work</button>
+        <button class="filter-btn active" data-filter="work">Work</button>
         <button class="filter-btn" data-filter="relationship">Relationships</button>
         <button class="filter-btn" data-filter="family">Family</button>
         <button class="filter-btn" data-filter="social">Social</button>
@@ -225,12 +257,12 @@
   <!-- ──────────────── WIZARD ──────────────── -->
   <section class="section wizard-section" id="wizard">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header fade-in">
         <span class="section-tag">Interactive Tool</span>
         <h2 class="section-title">Communication Wizard 🧙</h2>
         <p class="section-sub">Answer a few questions — get a personalised script and strategy.</p>
       </div>
-      <div class="wizard-card">
+      <div class="wizard-card fade-in">
         <div class="wizard-progress-bar">
           <div class="wizard-progress-fill" id="progressFill"></div>
         </div>
@@ -249,7 +281,7 @@
   <!-- ──────────────── TIPS ──────────────── -->
   <section class="section tips-section" id="tips">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header fade-in">
         <span class="section-tag">Quick Wins</span>
         <h2 class="section-title">Golden Communication Rules</h2>
         <p class="section-sub">Timeless principles that transform every conversation.</p>
@@ -263,7 +295,7 @@
   <!-- ──────────────── TEMPLATES ──────────────── -->
   <section class="section templates-section" id="templates">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header fade-in">
         <span class="section-tag">Ready-to-Use</span>
         <h2 class="section-title">Message Templates</h2>
         <p class="section-sub">Copy, customise, and send with confidence.</p>
